@@ -26,18 +26,15 @@ class Mip {
     // Obtém a imagem enviada pelo processo principal.
     final image = args['image'] as img.Image;
     // Cria uma nova imagem com o filtro preto e branco aplicado.
-    final newImage = applyFilter(image);
+    final newImage = applyBlackAndWhite(image);
     // Envia a imagem processada de volta para o processo principal.
     final sendPort = args['sendPort'] as SendPort;
     sendPort.send(newImage);
   }
 
-  img.Image applyFilter(img.Image image) {
+  img.Image applyBlackAndWhite(img.Image image) {
     // Converte a imagem para preto e branco.
     final grayscale = img.grayscale(image);
-    // final teste = img.billboard(image);
-    // Inverte a imagem em escala de cinza para obter o filtro preto e branco.
-    // final inverted = img.invert(image);
     // Retorna a imagem resultante.
     return grayscale;
   }
