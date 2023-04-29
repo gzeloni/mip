@@ -3,7 +3,7 @@ import 'dart:isolate';
 import 'package:image/image.dart' as img;
 
 class Mip {
-  void blackAndWhite() async {
+  void mip() async {
     // Caminho para a imagem a ser processada.
     const imagePath = 'assets/input.jpeg';
     // Carrega a imagem do disco.
@@ -26,18 +26,19 @@ class Mip {
     // Obtém a imagem enviada pelo processo principal.
     final image = args['image'] as img.Image;
     // Cria uma nova imagem com o filtro preto e branco aplicado.
-    final newImage = applyBlackAndWhiteFilter(image);
+    final newImage = applyFilter(image);
     // Envia a imagem processada de volta para o processo principal.
     final sendPort = args['sendPort'] as SendPort;
     sendPort.send(newImage);
   }
 
-  img.Image applyBlackAndWhiteFilter(img.Image image) {
+  img.Image applyFilter(img.Image image) {
     // Converte a imagem para preto e branco.
     final grayscale = img.grayscale(image);
+    // final teste = img.billboard(image);
     // Inverte a imagem em escala de cinza para obter o filtro preto e branco.
-    final inverted = img.invert(grayscale);
+    // final inverted = img.invert(image);
     // Retorna a imagem resultante.
-    return inverted;
+    return grayscale;
   }
 }

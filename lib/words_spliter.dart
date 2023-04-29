@@ -5,7 +5,7 @@ class WordsSplitter {
     List<String> result = words.split(" ");
     if (result.contains("filtro") && result.contains("p&b")) {
       Mip mip = Mip();
-      mip.blackAndWhite();
+      mip.mip();
     }
     return result;
   }
