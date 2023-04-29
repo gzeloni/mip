@@ -1,4 +1,4 @@
-import 'package:multithreading_image_processor/mip.dart';
+import 'package:multithreading_image_processor/black_and_white.dart';
 
 class WordsSplitter {
   List<String> split_words(String words) {
