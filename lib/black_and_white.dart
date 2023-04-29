@@ -3,7 +3,7 @@ import 'dart:isolate';
 import 'package:image/image.dart' as img;
 
 class Mip {
-  void mip() async {
+  void blackAndWhite() async {
     // Caminho para a imagem a ser processada.
     const imagePath = 'assets/input.jpeg';
     // Carrega a imagem do disco.
