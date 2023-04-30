@@ -33,21 +33,20 @@ class Mip {
   }
 
   void imageProcessor(Map<String, dynamic> args) async {
+    // Obtém a imagem enviada pelo processo principal.
+    final image = args['image'] as img.Image;
+    bool shouldApplyBlackAndWhite =
+        words.contains('p&b') && words.every((e) => e != 'inverted');
+    bool shouldApplyInvertedColor =
+        words.contains('inverted') && words.every((e) => e != 'p&b');
+    bool shouldApplyInvertedColorWithBlackAndWhite =
+        words.contains('inverted') && words.contains('p&b');
+    bool shouldApplyVignette =
+        words.contains('with') && words.contains('vignette');
+    bool shouldApplyBillboard = words.contains('billboard');
+    bool shouldApplySepia = words.contains('sepia');
+    img.Image processedImage;
     try {
-      // Obtém a imagem enviada pelo processo principal.
-      final image = args['image'] as img.Image;
-      bool shouldApplyBlackAndWhite =
-          words.contains('p&b') && words.every((e) => e != 'inverted');
-      bool shouldApplyInvertedColor =
-          words.contains('inverted') && words.every((e) => e != 'p&b');
-      bool shouldApplyInvertedColorWithBlackAndWhite =
-          words.contains('inverted') && words.contains('p&b');
-      bool shouldApplyVignette =
-          words.contains('with') && words.contains('vignette');
-      bool shouldApplyBillboard = words.contains('billboard');
-      bool shouldApplySepia = words.contains('sepia');
-      img.Image processedImage;
-
       if (shouldApplyInvertedColorWithBlackAndWhite) {
         processedImage = applyInvertedColor(applyBlackAndWhite(image));
       } else if (shouldApplyBlackAndWhite) {
@@ -59,12 +58,18 @@ class Mip {
       }
       if (shouldApplyBillboard) {
         processedImage = applyBillboard(image);
+      } else {
+        processedImage = image;
       }
       if (shouldApplySepia) {
         processedImage = applySepia(image);
+      } else {
+        processedImage = image;
       }
       if (shouldApplyVignette) {
         processedImage = applyVignette(processedImage);
+      } else {
+        processedImage = image;
       }
 
       // Envia a imagem processada de volta para o processo principal.
