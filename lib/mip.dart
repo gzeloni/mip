@@ -45,6 +45,7 @@ class Mip {
         words.contains('with') && words.contains('vignette');
     bool shouldApplyBillboard = words.contains('billboard');
     bool shouldApplySepia = words.contains('sepia');
+    bool shouldApplyBulge = words.contains('bulge');
     img.Image processedImage;
     try {
       if (shouldApplyInvertedColorWithBlackAndWhite) {
@@ -68,9 +69,18 @@ class Mip {
       }
       if (shouldApplyVignette) {
         if (isNumeric(words.last)) {
+          print(isNumeric(words.last).toString());
+          print(double.tryParse(words.last).toString());
           processedImage = applyVignette(image, double.tryParse(words.last));
         }
+        print(isNumeric(words.last).toString());
+        print(double.tryParse(words.last).toString());
         processedImage = applyVignette(processedImage, 1.4);
+      } else {
+        processedImage = image;
+      }
+      if (shouldApplyBulge) {
+        processedImage = appyBulge(image);
       } else {
         processedImage = image;
       }

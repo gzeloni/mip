@@ -17,36 +17,31 @@ bool isNumeric(String s) {
 }
 
 img.Image applyBlackAndWhite(img.Image image) {
-  // Converte a imagem para preto e branco.
   final grayscale = img.grayscale(image);
-  // Retorna a imagem resultante.
   return grayscale;
 }
 
 img.Image applyInvertedColor(img.Image image) {
-  // Converte a imagem para preto e branco.
   final invert = img.invert(image);
-  // Retorna a imagem resultante.
   return invert;
 }
 
 img.Image applyVignette(img.Image image, double? amount) {
-  // Converte a imagem para preto e branco.
   final vignette = img.vignette(image, amount: amount!);
-  // Retorna a imagem resultante.
   return vignette;
 }
 
 img.Image applyBillboard(img.Image image) {
-  // Converte a imagem para preto e branco.
   final invert = img.billboard(image);
-  // Retorna a imagem resultante.
   return invert;
 }
 
 img.Image applySepia(img.Image image) {
-  // Converte a imagem para preto e branco.
   final invert = img.sepia(image);
-  // Retorna a imagem resultante.
   return invert;
+}
+
+img.Image appyBulge(img.Image image) {
+  final bulge = img.bulgeDistortion(image);
+  return bulge;
 }
