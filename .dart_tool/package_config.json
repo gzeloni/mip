@@ -80,6 +80,12 @@
       "languageVersion": "2.15"
     },
     {
+      "name": "http",
+      "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/http-0.13.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "http_multi_server",
       "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/http_multi_server-3.2.1",
       "packageUri": "lib/",
@@ -314,7 +320,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-04-29T22:05:37.030767Z",
+  "generated": "2023-04-30T00:43:29.908080Z",
   "generator": "pub",
   "generatorVersion": "2.19.6"
 }

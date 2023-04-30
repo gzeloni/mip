@@ -1,4 +1,5 @@
 import 'package:image/image.dart' as img;
+import 'package:image/image.dart';
 import 'package:multithreading_image_processor/mip.dart';
 
 List<String> splitWords(String words) {
@@ -38,6 +39,13 @@ img.Image applyVignette(img.Image image, double? amount) {
 img.Image applyBillboard(img.Image image) {
   // Converte a imagem para preto e branco.
   final invert = img.billboard(image);
+  // Retorna a imagem resultante.
+  return invert;
+}
+
+img.Image applySepia(img.Image image, Channel channel) {
+  // Converte a imagem para preto e branco.
+  final invert = img.sepia(image, maskChannel: channel, mask: image, amount: 2);
   // Retorna a imagem resultante.
   return invert;
 }

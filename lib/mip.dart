@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'package:image/image.dart' as img;
+import 'package:image/image.dart';
 import 'package:multithreading_image_processor/functions.dart';
+import 'package:http/http.dart' as http;
 
 class Mip {
   List<String> words;
@@ -9,9 +11,11 @@ class Mip {
 
   void mip() async {
     // Caminho para a imagem a ser processada.
-    const imagePath = 'assets/lena.png';
+    // const imagePath = 'assets/lena.png';
+    final response = await http.get(Uri.parse(
+        "https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"));
     // Carrega a imagem do disco.
-    final bytes = await File(imagePath).readAsBytes();
+    final bytes = response.bodyBytes;
     final image = img.decodeImage(bytes);
     // Cria um canal de comunicação para enviar a imagem para o isolate.
     final receivePort = ReceivePort();
@@ -33,12 +37,15 @@ class Mip {
         words.contains('p&b') && words.every((e) => e != 'inverted');
     bool shouldApplyInvertedColor =
         words.contains('inverted') && words.every((e) => e != 'p&b');
+    bool shouldApplyInvertedColorWithBlackAndWhite =
+        words.contains('inverted') && words.contains('p&b');
     bool shouldApplyVignette =
         words.contains('with') && words.contains('vignette');
     bool shouldApplyBillboard = words.contains('billboard');
+    bool shouldApplySepia = words.contains('sepia');
     img.Image processedImage;
 
-    if (shouldApplyBlackAndWhite && shouldApplyInvertedColor) {
+    if (shouldApplyInvertedColorWithBlackAndWhite) {
       processedImage = applyInvertedColor(applyBlackAndWhite(image));
     } else if (shouldApplyBlackAndWhite) {
       processedImage = applyBlackAndWhite(image);
@@ -49,6 +56,29 @@ class Mip {
     }
     if (shouldApplyBillboard) {
       processedImage = applyBillboard(image);
+    }
+    if (shouldApplySepia) {
+      stdout.write("Channel:  ");
+      String? read = stdin.readLineSync();
+      Channel? channel;
+      switch (read) {
+        case 'luminance':
+          channel = Channel.luminance;
+          break;
+        case 'blue':
+          channel = Channel.blue;
+          break;
+        case 'red':
+          channel = Channel.red;
+          break;
+        case 'green':
+          channel = Channel.green;
+          break;
+        case 'alpha':
+          channel = Channel.alpha;
+          break;
+      }
+      processedImage = applySepia(image, channel!);
     }
     if (shouldApplyVignette) {
       stdout.write("Vignette value:  ");
