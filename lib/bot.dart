@@ -24,11 +24,20 @@ void bot() {
 
   bot.eventsWs.onMessageReceived.listen(
     (e) async {
-      if (e.message.content.startsWith("&make")) {
+      if (e.message.content.startsWith("&make") &&
+          e.message.content.length >= 7) {
+        bool exists = false;
+        String? link;
         final splitContent = e.message.content.split(" ");
+        for (var e in splitContent) {
+          if (e.contains("http")) {
+            exists = true;
+            link = e;
+          }
+        }
         final Mip mip = Mip(words: splitContent);
-        if (splitContent[1].startsWith("http")) {
-          mip.mip(splitContent[1]);
+        if (exists == true) {
+          mip.mip(link!);
           e.message.delete();
           e.message.channel
               .sendMessage(MessageBuilder.content("Aguarde 3 segundos..."));

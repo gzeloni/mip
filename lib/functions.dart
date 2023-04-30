@@ -1,15 +1,12 @@
 import 'package:image/image.dart' as img;
-import 'package:image/image.dart';
-import 'package:multithreading_image_processor/mip.dart';
-
-List<String> splitWords(String words) {
-  List<String> result = words.split(" ");
-  if (result.contains('filter')) {
-    final Mip mip = Mip(words: result);
-    // mip.mip();
-  }
-  return result;
-}
+// List<String> splitWords(String words) {
+//   List<String> result = words.split(" ");
+//   if (result.contains('filter')) {
+//     final Mip mip = Mip(words: result);
+//     // mip.mip();
+//   }
+//   return result;
+// }
 
 img.Image applyBlackAndWhite(img.Image image) {
   // Converte a imagem para preto e branco.
