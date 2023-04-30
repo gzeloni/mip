@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'package:image/image.dart' as img;
+import 'package:multithreading_image_processor/functions.dart';
 
 class Mip {
   List<String> words;
@@ -28,14 +29,13 @@ class Mip {
   void imageProcessor(Map<String, dynamic> args) async {
     // Obtém a imagem enviada pelo processo principal.
     final image = args['image'] as img.Image;
-    // Cria uma nova imagem com o filtro preto e branco aplicado.
     bool shouldApplyBlackAndWhite =
         words.contains('p&b') && words.every((e) => e != 'inverted');
     bool shouldApplyInvertedColor =
         words.contains('inverted') && words.every((e) => e != 'p&b');
     bool shouldApplyVignette =
         words.contains('with') && words.contains('vignette');
-
+    bool shouldApplyBillboard = words.contains('billboard');
     img.Image processedImage;
 
     if (shouldApplyBlackAndWhite && shouldApplyInvertedColor) {
@@ -47,34 +47,17 @@ class Mip {
     } else {
       processedImage = image;
     }
-
+    if (shouldApplyBillboard) {
+      processedImage = applyBillboard(image);
+    }
     if (shouldApplyVignette) {
-      processedImage = applyVignette(processedImage);
+      stdout.write("Vignette value:  ");
+      double? read = double.parse(stdin.readLineSync()!);
+      processedImage = applyVignette(processedImage, read);
     }
 
     // Envia a imagem processada de volta para o processo principal.
     final sendPort = args['sendPort'] as SendPort;
     sendPort.send(processedImage);
-  }
-
-  img.Image applyBlackAndWhite(img.Image image) {
-    // Converte a imagem para preto e branco.
-    final grayscale = img.grayscale(image);
-    // Retorna a imagem resultante.
-    return grayscale;
-  }
-
-  img.Image applyInvertedColor(img.Image image) {
-    // Converte a imagem para preto e branco.
-    final invert = img.invert(image);
-    // Retorna a imagem resultante.
-    return invert;
-  }
-
-  img.Image applyVignette(img.Image image) {
-    // Converte a imagem para preto e branco.
-    final invert = img.vignette(image);
-    // Retorna a imagem resultante.
-    return invert;
   }
 }
