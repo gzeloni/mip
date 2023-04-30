@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:multithreading_image_processor/config/config.dart';
 import 'package:multithreading_image_processor/mip.dart';
+import 'package:multithreading_image_processor/utils/commands_list.dart';
 import "package:nyxx/nyxx.dart";
 
 // Main function
@@ -10,6 +11,7 @@ void bot() {
   final bot = NyxxFactory.createNyxxWebsocket(
       Config.token(),
       GatewayIntents.allUnprivileged |
+          GatewayIntents.allPrivileged |
           GatewayIntents
               .messageContent) // Here we use the privilegied intent message content to receive incoming messages.
     ..registerPlugin(Logging()) // Default logging plugin
@@ -34,8 +36,8 @@ void bot() {
       if (splitContent[1].startsWith("http")) {
         mip.mip(splitContent[1]);
         e.message.channel
-            .sendMessage(MessageBuilder.content("Aguarde 2 segundos..."));
-        Future.delayed(Duration(seconds: 2), () {
+            .sendMessage(MessageBuilder.content("Aguarde 3 segundos..."));
+        Future.delayed(Duration(seconds: 3), () {
           List<AttachmentBuilder> files = [
             AttachmentBuilder.file(File('assets/output.png'))
           ];
@@ -60,14 +62,7 @@ void bot() {
               name: 'MIP - Multithreading Image Processor',
             ),
             title: 'COMMANDS',
-            description: '''
-              &make <link> parameters\n
-              p&b: Apply a black and white filter to the image\n
-              inverted: Apply a inverted color filter to the image\n
-              billboard: Apply a billboard (the image is made up of dots) filter to the image\n
-              sepia: Apply a sepia (shades of yellow) filter to the image\n
-              with vignette: Apply a vignette with 1.5 value (custom values ​in next update) to the image
-            ''',
+            description: commands,
             footer: EmbedFooterBuilder(
                 iconUrl:
                     "https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32",

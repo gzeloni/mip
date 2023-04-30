@@ -27,7 +27,7 @@ img.Image applyInvertedColor(img.Image image) {
 
 img.Image applyVignette(img.Image image) {
   // Converte a imagem para preto e branco.
-  final vignette = img.vignette(image, amount: 1.5);
+  final vignette = img.vignette(image, amount: 1.4);
   // Retorna a imagem resultante.
   return vignette;
 }
