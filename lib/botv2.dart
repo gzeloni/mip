@@ -52,7 +52,7 @@ void botv2() {
           name: 'MIP - Multithreading Image Processor',
         ),
         title: 'COMMANDS',
-        description: availableCommands.toString(),
+        description: commands,
         footer: EmbedFooterBuilder(
           iconUrl:
               'https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32',
