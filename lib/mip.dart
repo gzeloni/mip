@@ -67,7 +67,10 @@ class Mip {
         processedImage = image;
       }
       if (shouldApplyVignette) {
-        processedImage = applyVignette(processedImage);
+        if (isNumeric(words.last)) {
+          processedImage = applyVignette(image, double.tryParse(words.last));
+        }
+        processedImage = applyVignette(processedImage, 1.4);
       } else {
         processedImage = image;
       }

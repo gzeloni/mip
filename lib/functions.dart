@@ -8,6 +8,14 @@ import 'package:image/image.dart' as img;
 //   return result;
 // }
 
+bool isNumeric(String s) {
+  // ignore: unnecessary_null_comparison
+  if (s == null) {
+    return false;
+  }
+  return double.tryParse(s) != null;
+}
+
 img.Image applyBlackAndWhite(img.Image image) {
   // Converte a imagem para preto e branco.
   final grayscale = img.grayscale(image);
@@ -22,9 +30,9 @@ img.Image applyInvertedColor(img.Image image) {
   return invert;
 }
 
-img.Image applyVignette(img.Image image) {
+img.Image applyVignette(img.Image image, double? amount) {
   // Converte a imagem para preto e branco.
-  final vignette = img.vignette(image, amount: 1.4);
+  final vignette = img.vignette(image, amount: amount!);
   // Retorna a imagem resultante.
   return vignette;
 }

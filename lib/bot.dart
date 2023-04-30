@@ -38,7 +38,6 @@ void bot() {
         final Mip mip = Mip(words: splitContent);
         if (exists == true) {
           mip.mip(link!);
-          e.message.delete();
           e.message.channel
               .sendMessage(MessageBuilder.content("Aguarde 3 segundos..."));
           Future.delayed(
