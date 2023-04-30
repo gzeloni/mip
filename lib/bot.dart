@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:multithreading_image_processor/config/config.dart';
+import 'package:multithreading_image_processor/functions.dart';
 import 'package:multithreading_image_processor/mip.dart';
 import 'package:multithreading_image_processor/utils/commands_list.dart';
 import "package:nyxx/nyxx.dart";
@@ -26,6 +27,7 @@ void bot() {
     (e) async {
       if (e.message.content.startsWith("&make") &&
           e.message.content.length >= 7) {
+        final String filename = fileName().toString();
         bool exists = false;
         String? link;
         final splitContent = e.message.content.split(" ");
@@ -37,20 +39,20 @@ void bot() {
         }
         final Mip mip = Mip(words: splitContent);
         if (exists == true) {
-          mip.mip(link!);
+          mip.mip(link!, filename);
           e.message.channel
               .sendMessage(MessageBuilder.content("Aguarde 3 segundos..."));
           Future.delayed(
             Duration(seconds: 3),
             () {
               List<AttachmentBuilder> files = [
-                AttachmentBuilder.file(File('assets/output.png'))
+                AttachmentBuilder.file(File(filename))
               ];
               e.message.channel
                   .sendMessage(MessageBuilder.files(files))
                   .whenComplete(
                 () {
-                  File('assets/output.png').delete();
+                  File(filename).delete();
                 },
               );
             },

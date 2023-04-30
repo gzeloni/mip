@@ -8,7 +8,7 @@ class Mip {
   List<String> words;
   Mip({required this.words});
 
-  void mip(String imageLink) async {
+  void mip(String imageLink, String filename) async {
     try {
       // Caminho para a imagem a ser processada.
       // const imagePath = 'assets/lena.png';
@@ -26,7 +26,7 @@ class Mip {
       // Aguarda o recebimento da mensagem contendo a imagem processada.
       final newImage = await receivePort.first as img.Image;
       // Salva a imagem processada no disco.
-      await File('assets/output.png').writeAsBytes(img.encodePng(newImage));
+      await File(filename).writeAsBytes(img.encodePng(newImage));
     } catch (e) {
       print(e.toString());
     }

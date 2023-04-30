@@ -16,6 +16,12 @@ bool isNumeric(String s) {
   return double.tryParse(s) != null;
 }
 
+String fileName() {
+  DateTime date = DateTime.now();
+  String iso8601 = date.toIso8601String();
+  return 'assets/$iso8601-output.png';
+}
+
 img.Image applyBlackAndWhite(img.Image image) {
   final grayscale = img.grayscale(image);
   return grayscale;
