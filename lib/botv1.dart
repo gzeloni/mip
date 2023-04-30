@@ -29,34 +29,33 @@ void bot() {
           e.message.content.length >= 7) {
         final String filename = fileName().toString();
         bool exists = false;
-        String? link;
+        List<String> links = [];
         final splitContent = e.message.content.split(" ");
         for (var e in splitContent) {
-          if (e.contains("http")) {
+          if (e.contains("http://") || e.contains("https://")) {
+            links.add(e);
             exists = true;
-            link = e;
           }
         }
-        final Mip mip = Mip(words: splitContent);
         if (exists == true) {
-          mip.mip(link!, filename);
-          e.message.channel
-              .sendMessage(MessageBuilder.content("Aguarde 3 segundos..."));
-          Future.delayed(
-            Duration(seconds: 3),
-            () {
-              List<AttachmentBuilder> files = [
-                AttachmentBuilder.file(File(filename))
-              ];
-              e.message.channel
-                  .sendMessage(MessageBuilder.files(files))
-                  .whenComplete(
-                () {
-                  File(filename).delete();
-                },
-              );
-            },
-          );
+          if (links.length > 1) {
+            e.message.channel.sendMessage(MessageBuilder.content(
+                "Há mais de um link na mensagem! Por favor, insira apenas um link após o comando `&make`."));
+            return;
+          }
+          e.message.channel.sendMessage(
+              MessageBuilder.content("Aguarde a imagem ser processada..."));
+          final Mip mip = Mip(words: splitContent);
+          await mip.mip(links[0], filename).whenComplete(() {
+            List<AttachmentBuilder> files = [
+              AttachmentBuilder.file(File(filename))
+            ];
+            e.message.channel
+                .sendMessage(MessageBuilder.files(files))
+                .whenComplete(() {
+              File(filename).delete();
+            });
+          });
         } else {
           e.message.channel.sendMessage(MessageBuilder.content(
               "Não há link após o comando make ou o link não foi encontrado na mensagem!"));
