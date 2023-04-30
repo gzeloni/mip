@@ -9,11 +9,10 @@ class Mip {
   List<String> words;
   Mip({required this.words});
 
-  void mip() async {
+  void mip(String imageLink) async {
     // Caminho para a imagem a ser processada.
     // const imagePath = 'assets/lena.png';
-    final response = await http.get(Uri.parse(
-        "https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"));
+    final response = await http.get(Uri.parse(imageLink));
     // Carrega a imagem do disco.
     final bytes = response.bodyBytes;
     final image = img.decodeImage(bytes);
@@ -58,32 +57,10 @@ class Mip {
       processedImage = applyBillboard(image);
     }
     if (shouldApplySepia) {
-      stdout.write("Channel:  ");
-      String? read = stdin.readLineSync();
-      Channel? channel;
-      switch (read) {
-        case 'luminance':
-          channel = Channel.luminance;
-          break;
-        case 'blue':
-          channel = Channel.blue;
-          break;
-        case 'red':
-          channel = Channel.red;
-          break;
-        case 'green':
-          channel = Channel.green;
-          break;
-        case 'alpha':
-          channel = Channel.alpha;
-          break;
-      }
-      processedImage = applySepia(image, channel!);
+      processedImage = applySepia(image);
     }
     if (shouldApplyVignette) {
-      stdout.write("Vignette value:  ");
-      double? read = double.parse(stdin.readLineSync()!);
-      processedImage = applyVignette(processedImage, read);
+      processedImage = applyVignette(processedImage);
     }
 
     // Envia a imagem processada de volta para o processo principal.

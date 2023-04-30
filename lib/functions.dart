@@ -6,7 +6,7 @@ List<String> splitWords(String words) {
   List<String> result = words.split(" ");
   if (result.contains('filter')) {
     final Mip mip = Mip(words: result);
-    mip.mip();
+    // mip.mip();
   }
   return result;
 }
@@ -25,13 +25,9 @@ img.Image applyInvertedColor(img.Image image) {
   return invert;
 }
 
-img.Image applyVignette(img.Image image, double? amount) {
+img.Image applyVignette(img.Image image) {
   // Converte a imagem para preto e branco.
-  final vignette = img.vignette(image);
-  if (amount != null) {
-    final vignetteAmount = img.vignette(vignette, amount: amount);
-    return vignetteAmount;
-  }
+  final vignette = img.vignette(image, amount: 1.5);
   // Retorna a imagem resultante.
   return vignette;
 }
@@ -43,9 +39,9 @@ img.Image applyBillboard(img.Image image) {
   return invert;
 }
 
-img.Image applySepia(img.Image image, Channel channel) {
+img.Image applySepia(img.Image image) {
   // Converte a imagem para preto e branco.
-  final invert = img.sepia(image, maskChannel: channel, mask: image, amount: 2);
+  final invert = img.sepia(image);
   // Retorna a imagem resultante.
   return invert;
 }
