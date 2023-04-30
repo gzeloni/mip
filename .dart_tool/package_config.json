@@ -62,6 +62,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "dart_style",
+      "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/dart_style-2.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "eterl",
       "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/eterl-1.0.2",
       "packageUri": "lib/",
@@ -78,6 +84,12 @@
       "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/frontend_server_client-3.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "fuzzywuzzy",
+      "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/fuzzywuzzy-0.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
     },
     {
       "name": "glob",
@@ -164,6 +176,18 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "nyxx_commands",
+      "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/nyxx_commands-5.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "nyxx_interactions",
+      "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/nyxx_interactions-4.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "package_config",
       "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/package_config-2.1.0",
       "packageUri": "lib/",
@@ -200,10 +224,22 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "random_string",
+      "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/random_string-2.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "retry",
       "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/retry-3.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "runtime_type",
+      "rootUri": "file:///Users/gzeloni/.pub-cache/hosted/pub.dev/runtime_type-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "shelf",
@@ -338,7 +374,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-04-30T14:43:18.265905Z",
+  "generated": "2023-04-30T16:43:11.561476Z",
   "generator": "pub",
   "generatorVersion": "2.19.6"
 }

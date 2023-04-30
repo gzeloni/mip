@@ -12,62 +12,67 @@ void bot() {
       Config.token(),
       GatewayIntents.allUnprivileged |
           GatewayIntents.allPrivileged |
-          GatewayIntents
-              .messageContent) // Here we use the privilegied intent message content to receive incoming messages.
-    ..registerPlugin(Logging()) // Default logging plugin
-    ..registerPlugin(
-        CliIntegration()) // Cli integration for nyxx allows stopping application via SIGTERM and SIGKILl
-    ..registerPlugin(
-        IgnoreExceptions()) // Plugin that handles uncaught exceptions that may occur
+          GatewayIntents.messageContent)
+    ..registerPlugin(Logging())
+    ..registerPlugin(CliIntegration())
+    ..registerPlugin(IgnoreExceptions())
     ..connect();
 
-  // Listen to ready event. Invoked when bot is connected to all shards. Note that cache can be empty or not incomplete.
   bot.eventsWs.onReady.listen((e) {
     print("Ready!");
   });
 
-  // Listen to all incoming messages
-  bot.eventsWs.onMessageReceived.listen((e) async {
-    // Check if message content equals "!ping"
-    if (e.message.content.startsWith("&make")) {
-      // Send "Pong!" to channel where message was received
-      final splitContent = e.message.content.split(" ");
-      final Mip mip = Mip(words: splitContent);
-      if (splitContent[1].startsWith("http")) {
-        mip.mip(splitContent[1]);
-        e.message.channel
-            .sendMessage(MessageBuilder.content("Aguarde 3 segundos..."));
-        Future.delayed(Duration(seconds: 3), () {
-          List<AttachmentBuilder> files = [
-            AttachmentBuilder.file(File('assets/output.png'))
-          ];
+  bot.eventsWs.onMessageReceived.listen(
+    (e) async {
+      if (e.message.content.startsWith("&make")) {
+        final splitContent = e.message.content.split(" ");
+        final Mip mip = Mip(words: splitContent);
+        if (splitContent[1].startsWith("http")) {
+          mip.mip(splitContent[1]);
+          e.message.delete();
           e.message.channel
-              .sendMessage(MessageBuilder.files(files))
-              .whenComplete(() {
-            File('assets/output.png').delete();
-          });
-        });
-      } else {
-        e.message.channel.sendMessage(MessageBuilder.content(
-            "Não há link após o comando make ou o link não foi encontrado na mensagem!"));
+              .sendMessage(MessageBuilder.content("Aguarde 3 segundos..."));
+          Future.delayed(
+            Duration(seconds: 3),
+            () {
+              List<AttachmentBuilder> files = [
+                AttachmentBuilder.file(File('assets/output.png'))
+              ];
+              e.message.channel
+                  .sendMessage(MessageBuilder.files(files))
+                  .whenComplete(
+                () {
+                  File('assets/output.png').delete();
+                },
+              );
+            },
+          );
+        } else {
+          e.message.channel.sendMessage(MessageBuilder.content(
+              "Não há link após o comando make ou o link não foi encontrado na mensagem!"));
+        }
       }
-    }
 
-    if (e.message.content.startsWith("&help")) {
-      e.message.channel.sendMessage(MessageBuilder.embed(
-        EmbedBuilder(
-            author: EmbedAuthorBuilder(
-              iconUrl:
-                  "https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32",
-              name: 'MIP - Multithreading Image Processor',
-            ),
-            title: 'COMMANDS',
-            description: commands,
-            footer: EmbedFooterBuilder(
+      if (e.message.content.startsWith("&help")) {
+        e.message.channel.sendMessage(
+          MessageBuilder.embed(
+            EmbedBuilder(
+              author: EmbedAuthorBuilder(
                 iconUrl:
                     "https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32",
-                text: 'For more information, @Naive Bayes')),
-      ));
-    }
-  });
+                name: 'MIP - Multithreading Image Processor',
+              ),
+              title: 'COMMANDS',
+              description: commands,
+              footer: EmbedFooterBuilder(
+                iconUrl:
+                    "https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32",
+                text: 'For more information, @Naive Bayes',
+              ),
+            ),
+          ),
+        );
+      }
+    },
+  );
 }
