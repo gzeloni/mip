@@ -4,5 +4,6 @@ String commands = '''
               inverted: Apply a inverted color filter to the image\n
               billboard: Apply a billboard (the image is made up of dots) filter to the image\n
               sepia: Apply a sepia (shades of yellow) filter to the image\n
+              bulge: Apply a bulge effect to the image (try, it's funny!)\n
               with vignette: Apply a vignette to the image (add a custom value as the last sentence of the command)
             ''';
