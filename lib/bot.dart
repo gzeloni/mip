@@ -33,6 +33,8 @@ void bot() {
       final Mip mip = Mip(words: splitContent);
       if (splitContent[1].startsWith("http")) {
         mip.mip(splitContent[1]);
+        e.message.channel
+            .sendMessage(MessageBuilder.content("Aguarde 2 segundos..."));
         Future.delayed(Duration(seconds: 2), () {
           List<AttachmentBuilder> files = [
             AttachmentBuilder.file(File('assets/output.png'))
@@ -43,9 +45,10 @@ void bot() {
             File('assets/output.png').delete();
           });
         });
+      } else {
+        e.message.channel.sendMessage(MessageBuilder.content(
+            "Não há link após o comando make ou o link não foi encontrado na mensagem!"));
       }
-      e.message.channel
-          .sendMessage(MessageBuilder.content("Aguarde 2 segundos..."));
     }
 
     if (e.message.content.startsWith("&help")) {
