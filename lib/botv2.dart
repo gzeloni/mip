@@ -32,7 +32,7 @@ void botv2() {
         return;
       }
 
-      final filename = fileName().toString();
+      final filename = ImageProcessing.fileName().toString();
       event.message.channel.sendMessage(
           MessageBuilder.content('Aguarde a imagem ser processada...'));
 
