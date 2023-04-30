@@ -62,6 +62,25 @@ void botv2() {
 
       await event.message.channel.sendMessage(MessageBuilder.embed(embed));
     }
+
+    if (content.startsWith('&updates')) {
+      final embed = EmbedBuilder(
+        author: EmbedAuthorBuilder(
+          iconUrl:
+              'https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32',
+          name: 'MIP - Multithreading Image Processor V1.3',
+        ),
+        title: 'UPDATES',
+        description: updates,
+        footer: EmbedFooterBuilder(
+          iconUrl:
+              'https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32',
+          text: 'For more information, Naive Bayes#9556',
+        ),
+      );
+
+      await event.message.channel.sendMessage(MessageBuilder.embed(embed));
+    }
   });
 
   bot.connect();

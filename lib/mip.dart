@@ -44,21 +44,38 @@ class Mip {
     };
 
     double? vignetteThickness;
+    int? centerX;
+    int? centerY;
+    double? radius;
 
     for (final word in words) {
-      if (shouldApply.containsKey(word)) {
-        shouldApply[word] = true;
-      } else if (word == 'with') {
-        final nextWordIndex = words.indexOf(word) + 1;
-        if (nextWordIndex < words.length &&
-            shouldApply.containsKey(words[nextWordIndex]) &&
-            nextWordIndex + 1 < words.length &&
-            ImageProcessing.isNumeric(words[nextWordIndex + 1])) {
-          shouldApply[words[nextWordIndex]] = true;
-          if (words[nextWordIndex] == 'vignette') {
-            vignetteThickness = double.tryParse(words[nextWordIndex + 1]);
+      if (word.startsWith('-')) {
+        final key = word.substring(1);
+        if (key == 'x' &&
+            words.indexOf(word) + 1 < words.length &&
+            ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+          centerX = int.parse(words[words.indexOf(word) + 1]);
+          shouldApply[key] = true;
+        } else if (key == 'y' &&
+            words.indexOf(word) + 1 < words.length &&
+            ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+          centerY = int.parse(words[words.indexOf(word) + 1]);
+          shouldApply[key] = true;
+        } else if (key == 'radius' &&
+            words.indexOf(word) + 1 < words.length &&
+            ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+          radius = double.tryParse(words[words.indexOf(word) + 1]);
+          shouldApply[key] = true;
+        } else if (shouldApply.containsKey(key)) {
+          shouldApply[key] = true;
+          if (key == 'vignette' &&
+              words.indexOf(word) + 1 < words.length &&
+              ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+            vignetteThickness = double.tryParse(words[words.indexOf(word) + 1]);
           }
         }
+      } else if (shouldApply.containsKey(word)) {
+        shouldApply[word] = true;
       }
     }
 
@@ -81,7 +98,9 @@ class Mip {
           processedImage, vignetteThickness ?? 1.4);
     }
     if (shouldApply['bulge']!) {
-      processedImage = ImageProcessing.appyBulge(processedImage);
+      processedImage = ImageProcessing.appyBulge(processedImage,
+          centerX: centerX, centerY: centerY, radius: radius);
+      print('Bulge aplicado com sucesso');
     }
     final sendPort = args['sendPort'] as SendPort;
     sendPort.send(processedImage);

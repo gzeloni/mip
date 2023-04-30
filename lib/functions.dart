@@ -36,8 +36,10 @@ class ImageProcessing {
     return invert;
   }
 
-  static img.Image appyBulge(img.Image image) {
-    final bulge = img.bulgeDistortion(image);
+  static img.Image appyBulge(img.Image image,
+      {int? centerX, int? centerY, num? radius}) {
+    final bulge = img.bulgeDistortion(image,
+        centerX: centerX, centerY: centerY, radius: radius);
     return bulge;
   }
 }

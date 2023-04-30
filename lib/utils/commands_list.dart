@@ -7,3 +7,10 @@ String commands = '''
               bulge: Apply a bulge effect to the image (try, it's funny!)\n
               with vignette: Apply a vignette to the image (you can add a custom value, like "with vignette 0.8")
             ''';
+
+String updates = '''
+Now the "bulge" command has three options to manipulate the distortion shape. They are: x, y, and radius.
+To use these new commands, it's necessary to add a hyphen before the option, for example: 
+"&make bulge -x 10 -y 100 -radius 50 <image link>"
+These options will be extended to the other commands in the upcoming updates.
+''';
