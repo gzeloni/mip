@@ -7,7 +7,7 @@ import "package:nyxx/nyxx.dart";
 
 void botv2() {
   final bot = NyxxFactory.createNyxxWebsocket(
-      Config.token(),
+      Config.getToken(),
       GatewayIntents.allUnprivileged |
           GatewayIntents.allPrivileged |
           GatewayIntents.messageContent);
