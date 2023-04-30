@@ -34,52 +34,56 @@ class Mip {
     final image = args['image'] as img.Image;
     final words = args['words'] as List<String>;
 
-    bool shouldApplyBlackAndWhite =
-        words.contains('p&b') && words.every((e) => e != 'inverted');
-    bool shouldApplyInvertedColor =
-        words.contains('inverted') && words.every((e) => e != 'p&b');
-    bool shouldApplyInvertedColorWithBlackAndWhite =
-        words.contains('inverted') && words.contains('p&b');
-    bool shouldApplyVignette =
-        words.contains('with') && words.contains('vignette');
-    bool shouldApplyBillboard = words.contains('billboard');
-    bool shouldApplySepia = words.contains('sepia');
-    bool shouldApplyBulge = words.contains('bulge');
+    final shouldApply = <String, bool>{
+      'p&b': false,
+      'inverted': false,
+      'vignette': false,
+      'billboard': false,
+      'sepia': false,
+      'bulge': false,
+    };
 
-    img.Image processedImage;
-    try {
-      if (shouldApplyInvertedColorWithBlackAndWhite) {
-        processedImage = ImageProcessing.applyInvertedColor(
-            ImageProcessing.applyBlackAndWhite(image));
-      } else if (shouldApplyBlackAndWhite) {
-        processedImage = ImageProcessing.applyBlackAndWhite(image);
-      } else if (shouldApplyInvertedColor) {
-        processedImage = ImageProcessing.applyInvertedColor(image);
-      } else {
-        processedImage = image;
-      }
-      if (shouldApplyBillboard) {
-        processedImage = ImageProcessing.applyBillboard(image);
-      }
-      if (shouldApplySepia) {
-        processedImage = ImageProcessing.applySepia(image);
-      }
-      if (shouldApplyVignette) {
-        if (ImageProcessing.isNumeric(words.last)) {
-          processedImage = ImageProcessing.applyVignette(
-              processedImage, double.tryParse(words.last)!);
-        } else {
-          processedImage = ImageProcessing.applyVignette(processedImage, 1.4);
+    double? vignetteThickness;
+
+    for (final word in words) {
+      if (shouldApply.containsKey(word)) {
+        shouldApply[word] = true;
+      } else if (word == 'with') {
+        final nextWordIndex = words.indexOf(word) + 1;
+        if (nextWordIndex < words.length &&
+            shouldApply.containsKey(words[nextWordIndex]) &&
+            nextWordIndex + 1 < words.length &&
+            ImageProcessing.isNumeric(words[nextWordIndex + 1])) {
+          shouldApply[words[nextWordIndex]] = true;
+          if (words[nextWordIndex] == 'vignette') {
+            vignetteThickness = double.tryParse(words[nextWordIndex + 1]);
+          }
         }
       }
-      if (shouldApplyBulge) {
-        processedImage = ImageProcessing.appyBulge(image);
-      }
-
-      final sendPort = args['sendPort'] as SendPort;
-      sendPort.send(processedImage);
-    } catch (e) {
-      print(e.toString());
     }
+
+    img.Image processedImage = image;
+
+    if (shouldApply['p&b']!) {
+      processedImage = ImageProcessing.applyBlackAndWhite(image);
+    }
+    if (shouldApply['inverted']!) {
+      processedImage = ImageProcessing.applyInvertedColor(image);
+    }
+    if (shouldApply['billboard']!) {
+      processedImage = ImageProcessing.applyBillboard(processedImage);
+    }
+    if (shouldApply['sepia']!) {
+      processedImage = ImageProcessing.applySepia(processedImage);
+    }
+    if (shouldApply['vignette']!) {
+      processedImage = ImageProcessing.applyVignette(
+          processedImage, vignetteThickness ?? 1.4);
+    }
+    if (shouldApply['bulge']!) {
+      processedImage = ImageProcessing.appyBulge(processedImage);
+    }
+    final sendPort = args['sendPort'] as SendPort;
+    sendPort.send(processedImage);
   }
 }
