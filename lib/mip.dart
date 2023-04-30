@@ -8,7 +8,7 @@ class Mip {
   List<String> words;
   Mip({required this.words});
 
-  void mip(String imageLink, String filename) async {
+  Future<void> mip(String imageLink, String filename) async {
     try {
       // Caminho para a imagem a ser processada.
       // const imagePath = 'assets/lena.png';
