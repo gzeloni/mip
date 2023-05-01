@@ -4,8 +4,9 @@ p&b: Apply a black and white filter to the image\n
 inverted: Apply a inverted color filter to the image\n
 billboard: Apply a billboard (the image is made up of dots) filter to the image\n
 sepia: Apply a sepia (shades of yellow) filter to the image\n
-bulge: Apply a bulge effect to the image (try, it's funny!)\n
-with vignette: Apply a vignette to the image (you can add a custom value, like "with vignette 0.8")''';
+bulge: Apply a bulge effect to the image [-x, -y, -radius]\n
+vignette: Apply a vignette to the image (for custom values, use a hyphen "&make -vignette 1.3")\n
+gaussian: Apply a blur effect to the image [-blur]''';
 
 String updates = '''
 Now the "bulge" command has three options to manipulate the distortion shape. They are: x, y, and radius.\n
