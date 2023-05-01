@@ -53,12 +53,14 @@ class Mip {
       'billboard': false,
       'sepia': false,
       'bulge': false,
+      'gaussian': false
     };
 
     // Initialize variables for vignette and bulge options
     double? vignetteThickness;
     int? centerX;
     int? centerY;
+    int? gaussRadius;
     double? radius;
 
     // Parse the options from the list of words
@@ -83,6 +85,12 @@ class Mip {
             ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
           // if option is 'radius' and the next word is a number, parse it to double and save it as radius
           radius = double.tryParse(words[words.indexOf(word) + 1]);
+          shouldApply[key] = true;
+        } else if (key == 'blur' &&
+            words.indexOf(word) + 1 < words.length &&
+            ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+          // if option is 'radius' and the next word is a number, parse it to double and save it as radius
+          gaussRadius = int.parse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
         } else if (shouldApply.containsKey(key)) {
           // if option is valid and doesn't require a value, set its value to true
@@ -141,6 +149,14 @@ class Mip {
       // Apply bulge filter to the image
       processedImage = ImageProcessing.appyBulge(processedImage,
           centerX: centerX, centerY: centerY, radius: radius);
+    }
+
+    // Check if 'gaussian' flag is enabled
+    if (shouldApply['gaussian']!) {
+      // Apply gaussian filter to the image
+      print(gaussRadius.toString());
+      processedImage =
+          ImageProcessing.applyGaussianBlur(processedImage, gaussRadius ?? 5);
     }
 
     // Get the sendPort from the arguments and send the processed image
