@@ -3,7 +3,7 @@ import 'package:image/image.dart' as img;
 
 class ImageProcessing {
   /// This method checks if a given string is numeric or not.
-  /// @param s The string to check.
+  /// @param [s] The string to check.
   /// @return Returns true if the string is numeric, else false.
   static bool isNumeric(String s) {
     return double.tryParse(s) != null;
@@ -18,7 +18,7 @@ class ImageProcessing {
   }
 
   /// This method applies a black and white filter to the given image.
-  /// @param image The image to apply the filter to.
+  /// @param [image] The image to apply the filter to.
   /// @return Returns a new image with the filter applied.
   static img.Image applyBlackAndWhite(img.Image image) {
     final grayscale = img.grayscale(image);
@@ -26,7 +26,7 @@ class ImageProcessing {
   }
 
   /// This method applies an inverted color filter to the given image.
-  /// @param image The image to apply the filter to.
+  /// @param [image] The image to apply the filter to.
   /// @return Returns a new image with the filter applied.
   static img.Image applyInvertedColor(img.Image image) {
     final invert = img.invert(image);
@@ -34,8 +34,8 @@ class ImageProcessing {
   }
 
   /// This method applies a vignette filter to the given image.
-  /// @param image The image to apply the filter to.
-  /// @param amount The amount of vignette to apply.
+  /// @param [image] The image to apply the filter to.
+  /// @param [amount] The amount of vignette to apply.
   /// @return Returns a new image with the filter applied.
   static img.Image applyVignette(img.Image image, double amount) {
     final vignette = img.vignette(image, amount: amount);
@@ -43,7 +43,7 @@ class ImageProcessing {
   }
 
   /// This method applies a billboard filter to the given image.
-  /// @param image The image to apply the filter to.
+  /// @param [image] The image to apply the filter to.
   /// @return Returns a new image with the filter applied.
   static img.Image applyBillboard(img.Image image) {
     final invert = img.billboard(image);
@@ -51,7 +51,7 @@ class ImageProcessing {
   }
 
   /// This method applies a sepia filter to the given image.
-  /// @param image The image to apply the filter to.
+  /// @param [image] The image to apply the filter to.
   /// @return Returns a new image with the filter applied.
   static img.Image applySepia(img.Image image) {
     final invert = img.sepia(image);
@@ -59,10 +59,10 @@ class ImageProcessing {
   }
 
   /// This method applies a bulge distortion filter to the given image.
-  /// @param image The image to apply the filter to.
-  /// @param centerX The x-coordinate of the center of the bulge.
-  /// @param centerY The y-coordinate of the center of the bulge.
-  /// @param radius The radius of the bulge.
+  /// @param [image] The image to apply the filter to.
+  /// @param [centerX] The x-coordinate of the center of the bulge.
+  /// @param [centerY] The y-coordinate of the center of the bulge.
+  /// @param [radius] The radius of the bulge.
   /// @return Returns a new image with the filter applied.
   static img.Image appyBulge(img.Image image,
       {int? centerX, int? centerY, num? radius}) {
