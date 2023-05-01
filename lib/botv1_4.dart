@@ -26,6 +26,7 @@ void botv2() {
     if (event.message.guild != null) {
       return;
     }
+
     // Check if the message starts with the "&make" command
     if (content.startsWith('&make') && content.length >= 7) {
       // Extract image links from the message content
