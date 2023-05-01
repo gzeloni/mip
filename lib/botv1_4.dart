@@ -22,6 +22,10 @@ void botv2() {
   bot.eventsWs.onMessageReceived.listen((event) async {
     final content = event.message.content;
 
+    // Dont process message when not send in guild context
+    if (event.message.guild != null) {
+      return;
+    }
     // Check if the message starts with the "&make" command
     if (content.startsWith('&make') && content.length >= 7) {
       // Extract image links from the message content
