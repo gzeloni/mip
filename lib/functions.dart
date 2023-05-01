@@ -70,4 +70,12 @@ class ImageProcessing {
         centerX: centerX, centerY: centerY, radius: radius);
     return bulge;
   }
+
+  /// This method applies a gaussian blur filter to the given image.
+  /// @param [image] The image to apply the filter to.
+  /// @param [radius] The radius of the gaussian blur.
+  static img.Image applyGaussianBlur(img.Image image, int radius) {
+    final invert = img.gaussianBlur(image, radius: radius);
+    return invert;
+  }
 }
