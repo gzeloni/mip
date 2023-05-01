@@ -53,7 +53,8 @@ class Mip {
       'billboard': false,
       'sepia': false,
       'bulge': false,
-      'gaussian': false
+      'gaussian': false,
+      'emboss': false,
     };
 
     // Initialize variables for vignette and bulge options
@@ -157,6 +158,12 @@ class Mip {
       print(gaussRadius.toString());
       processedImage =
           ImageProcessing.applyGaussianBlur(processedImage, gaussRadius ?? 5);
+    }
+
+    // Check if 'emboss' flag is enabled
+    if (shouldApply['emboss']!) {
+      // Apply emboss convolution filter to the image
+      processedImage = ImageProcessing.applyEmboss(processedImage);
     }
 
     // Get the sendPort from the arguments and send the processed image
