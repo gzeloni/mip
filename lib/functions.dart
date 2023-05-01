@@ -78,4 +78,11 @@ class ImageProcessing {
     final invert = img.gaussianBlur(image, radius: radius);
     return invert;
   }
+
+  /// This method applies a emboss convolution filter to the given image.
+  /// @param [image] The image to apply the filter to.
+  static img.Image applyEmboss(img.Image image) {
+    final invert = img.emboss(image);
+    return invert;
+  }
 }
