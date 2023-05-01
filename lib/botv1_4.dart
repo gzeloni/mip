@@ -11,7 +11,8 @@ void botv2() {
       Config.getToken(),
       GatewayIntents.allUnprivileged |
           GatewayIntents.allPrivileged |
-          GatewayIntents.messageContent);
+          GatewayIntents.messageContent)
+    ..registerPlugin(IgnoreExceptions());
 
   // Listener for when the bot is ready
   bot.eventsWs.onReady.listen((event) {
@@ -21,11 +22,6 @@ void botv2() {
   // Listener for when a message is received
   bot.eventsWs.onMessageReceived.listen((event) async {
     final content = event.message.content;
-
-    // Dont process message when not send in guild context
-    if (event.message.guild != null) {
-      return;
-    }
 
     // Check if the message starts with the "&make" command
     if (content.startsWith('&make') && content.length >= 7) {
