@@ -18,7 +18,8 @@
     <td>vignette filter: <img src="https://i.ibb.co/cX015vp/vignette.png" alt="artificial-7642630-1280" border="0" width="250" height="250"></td>
   </tr>
 </table>
-####
+
+#### You can combine the filters and use flags, such as: "&make bulge -x 20 -y 30 -radius 160 image \<link here\>"
 
 ## The goal
 ##### The goal of this project is to provide a bot-based interface for users to submit image processing requests, which are then completed and returned with the specified filters applied.
