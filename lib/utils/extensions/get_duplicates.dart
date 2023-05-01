@@ -2,12 +2,13 @@ import 'dart:collection';
 
 extension ListExtensions<E> on List<E> {
   List<E> removeAll(Iterable<E> allToRemove) {
+    // ignore: unnecessary_null_comparison
     if (allToRemove == null) {
       return this;
     } else {
-      allToRemove.forEach((element) {
-        this.remove(element);
-      });
+      for (var element in allToRemove) {
+        remove(element);
+      }
       return this;
     }
   }
