@@ -155,7 +155,6 @@ class Mip {
     // Check if 'gaussian' flag is enabled
     if (shouldApply['gaussian']!) {
       // Apply gaussian filter to the image
-      print(gaussRadius.toString());
       processedImage =
           ImageProcessing.applyGaussianBlur(processedImage, gaussRadius ?? 5);
     }
