@@ -2,6 +2,25 @@
 
 ##### Multithreading Image Processor (MIP) is a project aimed at developing a fast and highly customizable image processing system using the Dart programming language's [dart:io](https://api.dart.dev/stable/2.19.6/dart-io/dart-io-library.html), [dart:isolate](https://api.dart.dev/stable/2.19.6/dart-isolate/dart-isolate-library.html), and [image](https://pub.dev/packages/image) package, as well as the [nyxx](https://pub.dev/packages/nyxx) package for Discord bots.
 
+## Output examples:
+<table>
+  <tr>
+    <td>Without filter: <img src="https://i.ibb.co/yyXqTfH/sem-filtro.jpg" alt="artificial-7642630-1280" border="0" width="250" height="250"></td>
+    <td>p&b filter: <img src="https://i.ibb.co/hXXzLWM/p-b.png" alt="artificial-7642630-1280" border="0" width="250" height="250"></td>
+    <td>inverted filter: <img src="https://i.ibb.co/tBvQyBG/inverted.png" alt="artificial-7642630-1280" border="0" width="250" height="250"></td>
+    <td>billboard filter: <img src="https://i.ibb.co/VH76hg5/billboard.png" alt="artificial-7642630-1280" border="0" width="250" height="250"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td>sepia filter: <img src="https://i.ibb.co/JKVQxvq/sepia.png" alt="artificial-7642630-1280" border="0" width="250" height="250"></td>
+    <td>bulge filter: <img src="https://i.ibb.co/QQnJH4Z/bulge.png" alt="artificial-7642630-1280" border="0" width="250" height="250"></td>
+    <td>vignette filter: <img src="https://i.ibb.co/cX015vp/vignette.png" alt="artificial-7642630-1280" border="0" width="250" height="250"></td>
+  </tr>
+</table>
+
+#### You can combine the filters and use flags, such as: "&make bulge -x 20 -y 30 -radius 160 image \<link here\>"
+
 ## The goal
 ##### The goal of this project is to provide a bot-based interface for users to submit image processing requests, which are then completed and returned with the specified filters applied.
 
