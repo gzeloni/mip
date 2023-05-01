@@ -6,7 +6,7 @@ billboard: Apply a billboard (the image is made up of dots) filter to the image\
 sepia: Apply a sepia (shades of yellow) filter to the image\n
 bulge: Apply a bulge effect to the image [-x, -y, -radius]\n
 vignette: Apply a vignette to the image (for custom values, use a hyphen "&make -vignette 1.3")\n
-gaussian: Apply a blur effect to the image [-blur]
+gaussian: Apply a blur effect to the image [-blur]\n
 emboss: Apply a emboss convolution filter to the given image''';
 
 String updates = '''
