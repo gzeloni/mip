@@ -53,7 +53,7 @@ void botv1_5() {
           await event.message.channel.sendMessage(MessageBuilder.content(
               'Por favor, insira apenas um link após o comando `&make`.'));
         } catch (e) {
-          await logError(e);
+          sendEmbedMessageErrorHandler(e, event, bot);
         }
         return;
       }
@@ -65,7 +65,7 @@ void botv1_5() {
         await event.message.channel.sendMessage(
             MessageBuilder.content('Aguarde a imagem ser processada...'));
       } catch (e) {
-        await logError(e);
+        sendEmbedMessageErrorHandler(e, event, bot);
       }
 
       // Create a new Mip instance with the message content
@@ -77,7 +77,7 @@ void botv1_5() {
       try {
         await event.message.channel.sendMessage(MessageBuilder.files(files));
       } catch (e) {
-        await logError(e);
+        sendEmbedMessageErrorHandler(e, event, bot);
       }
 
       // Delete the processed image file to free up disk space
@@ -105,15 +105,7 @@ void botv1_5() {
       try {
         await event.message.channel.sendMessage(MessageBuilder.embed(embed));
       } catch (e) {
-        // send DM to the bot owner if the embed message fails to send
-        final owner = await bot.fetchUser(Snowflake(event.message.author.id));
-        // try send DM, if it fails, print the error
-        try {
-          await owner.sendMessage(MessageBuilder.content(
-              'Não tenho permissão de enviar mensagens no canal <#${event.message.channel.id}>'));
-        } catch (e) {
-          await logError(e);
-        }
+        sendEmbedMessageErrorHandler(e, event, bot);
       }
     }
 
@@ -139,7 +131,7 @@ void botv1_5() {
       try {
         await event.message.channel.sendMessage(MessageBuilder.embed(embed));
       } catch (e) {
-        await logError(e);
+        sendEmbedMessageErrorHandler(e, event, bot);
       }
     }
   });
@@ -151,14 +143,14 @@ void botv1_5() {
         await event.message.channel.sendMessage(
             MessageBuilder.content("Digite &help para ver meus comandos"));
       } catch (e) {
-        await logError(e);
+        sendEmbedMessageErrorHandler(e, event, bot);
       }
     } else {
       try {
         await event.message.channel
             .sendMessage(MessageBuilder.content(randomText()));
       } catch (e) {
-        await logError(e);
+        sendEmbedMessageErrorHandler(e, event, bot);
       }
     }
   });
