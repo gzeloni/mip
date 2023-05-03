@@ -10,7 +10,6 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'package:image/image.dart' as img;
-import 'package:image/image.dart';
 import 'package:multithreading_image_processor/functions.dart';
 import 'package:http/http.dart' as http;
 
