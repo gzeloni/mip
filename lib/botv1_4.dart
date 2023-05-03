@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:multithreading_image_processor/config/config.dart';
 import 'package:multithreading_image_processor/functions.dart';
@@ -12,7 +13,7 @@ void botv2() {
       GatewayIntents.allUnprivileged |
           GatewayIntents.allPrivileged |
           GatewayIntents.messageContent)
-    ..registerPlugin(IgnoreExceptions());
+    ..registerPlugin(Logging());
 
   // Listener for when the bot is ready
   bot.eventsWs.onReady.listen((event) {
@@ -74,7 +75,6 @@ void botv2() {
           text: 'For more information, Naive Bayes#9556',
         ),
       );
-
       // Send the embed message to the Discord channel
       await event.message.channel.sendMessage(MessageBuilder.embed(embed));
     }
@@ -100,6 +100,11 @@ void botv2() {
       // Send the embed message to the Discord channel
       await event.message.channel.sendMessage(MessageBuilder.embed(embed));
     }
+  });
+
+  bot.eventsWs.onSelfMention.listen((event) async {
+    event.message.channel
+        .sendMessage(MessageBuilder.content('Marca a mãe, random do caralho!'));
   });
 
   bot.connect();

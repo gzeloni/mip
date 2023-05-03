@@ -17,3 +17,6 @@ dependencies:
   image: ^4.0.15
   nyxx: ^5.0.3
   nyxx_commands: ^5.0.2
+
+assets:
+  - .env
