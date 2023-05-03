@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:multithreading_image_processor/config/config.dart';
 import 'package:multithreading_image_processor/functions.dart';
 import 'package:multithreading_image_processor/mip.dart';
 import 'package:multithreading_image_processor/utils/commands_list.dart';
+import 'package:multithreading_image_processor/utils/text_list.dart';
 import "package:nyxx/nyxx.dart";
 
 void botv2() {
@@ -23,9 +23,13 @@ void botv2() {
   // Listener for when a message is received
   bot.eventsWs.onMessageReceived.listen((event) async {
     final content = event.message.content;
+    String? attachmentImage;
 
     // Check if the message starts with the "&make" command
     if (content.startsWith('&make') && content.length >= 7) {
+      for (var a in event.message.attachments) {
+        attachmentImage = a.url;
+      }
       // Extract image links from the message content
       final links = content
           .split(' ')
@@ -33,6 +37,10 @@ void botv2() {
               element.contains('http://') || element.contains('https://'))
           .toList();
 
+      // Check if there are no links and if there is a non-null attachment
+      if (links.isEmpty && attachmentImage != null) {
+        links.add(attachmentImage);
+      }
       // If there's not exactly one link, send an error message and return
       if (links.length != 1) {
         event.message.channel.sendMessage(MessageBuilder.content(
@@ -103,8 +111,13 @@ void botv2() {
   });
 
   bot.eventsWs.onSelfMention.listen((event) async {
-    event.message.channel
-        .sendMessage(MessageBuilder.content('Marca a mãe, random do caralho!'));
+    final content = event.message.content;
+    if (content.startsWith('<') && content.length == 21) {
+      event.message.channel.sendMessage(
+          MessageBuilder.content("Digite &help para ver meus comandos"));
+    } else {
+      event.message.channel.sendMessage(MessageBuilder.content(randomText()));
+    }
   });
 
   bot.connect();
