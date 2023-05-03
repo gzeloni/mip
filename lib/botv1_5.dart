@@ -2,11 +2,12 @@ import 'dart:io';
 import 'package:multithreading_image_processor/config/config.dart';
 import 'package:multithreading_image_processor/functions.dart';
 import 'package:multithreading_image_processor/mip.dart';
+import 'package:multithreading_image_processor/models/log_function.dart';
 import 'package:multithreading_image_processor/utils/commands_list.dart';
 import 'package:multithreading_image_processor/utils/text_list.dart';
 import "package:nyxx/nyxx.dart";
 
-void botv2() {
+void botv1_5() {
   // Create Nyxx bot instance with necessary intents
   final bot = NyxxFactory.createNyxxWebsocket(
       Config.getToken(),
@@ -48,16 +49,24 @@ void botv2() {
       }
       // If there's not exactly one link, send an error message and return
       if (links.length != 1) {
-        event.message.channel.sendMessage(MessageBuilder.content(
-            'Por favor, insira um link e os parâmetros após o comando `&make`.'));
+        try {
+          await event.message.channel.sendMessage(MessageBuilder.content(
+              'Por favor, insira apenas um link após o comando `&make`.'));
+        } catch (e) {
+          await logError(e);
+        }
         return;
       }
 
       // Generate a unique filename for the processed image
       final filename = ImageProcessing.fileName().toString();
       // Send a message indicating that the image is being processed
-      event.message.channel.sendMessage(
-          MessageBuilder.content('Aguarde a imagem ser processada...'));
+      try {
+        await event.message.channel.sendMessage(
+            MessageBuilder.content('Aguarde a imagem ser processada...'));
+      } catch (e) {
+        await logError(e);
+      }
 
       // Create a new Mip instance with the message content
       final mip = Mip(words: content.split(' '));
@@ -65,7 +74,11 @@ void botv2() {
 
       // Send the processed image back to the Discord channel
       final files = [AttachmentBuilder.file(File(filename))];
-      await event.message.channel.sendMessage(MessageBuilder.files(files));
+      try {
+        await event.message.channel.sendMessage(MessageBuilder.files(files));
+      } catch (e) {
+        await logError(e);
+      }
 
       // Delete the processed image file to free up disk space
       File(filename).delete();
@@ -73,7 +86,6 @@ void botv2() {
 
     // Check if the message starts with the "&help" command
     if (content.startsWith('&help')) {
-      print(event.message.member!.effectivePermissions.toString());
       // Create an embed message with the list of available commands
       final embed = EmbedBuilder(
         author: EmbedAuthorBuilder(
@@ -90,7 +102,19 @@ void botv2() {
         ),
       );
       // Send the embed message to the Discord channel
-      await event.message.channel.sendMessage(MessageBuilder.embed(embed));
+      try {
+        await event.message.channel.sendMessage(MessageBuilder.embed(embed));
+      } catch (e) {
+        // send DM to the bot owner if the embed message fails to send
+        final owner = await bot.fetchUser(Snowflake(event.message.author.id));
+        // try send DM, if it fails, print the error
+        try {
+          await owner.sendMessage(MessageBuilder.content(
+              'Não tenho permissão de enviar mensagens no canal <#${event.message.channel.id}>'));
+        } catch (e) {
+          await logError(e);
+        }
+      }
     }
 
     // Check if the message starts with the "&updates" command
@@ -112,17 +136,30 @@ void botv2() {
       );
 
       // Send the embed message to the Discord channel
-      await event.message.channel.sendMessage(MessageBuilder.embed(embed));
+      try {
+        await event.message.channel.sendMessage(MessageBuilder.embed(embed));
+      } catch (e) {
+        await logError(e);
+      }
     }
   });
 
   bot.eventsWs.onSelfMention.listen((event) async {
     final content = event.message.content;
     if (content.startsWith('<') && content.length == 21) {
-      event.message.channel.sendMessage(
-          MessageBuilder.content("Digite &help para ver meus comandos"));
+      try {
+        await event.message.channel.sendMessage(
+            MessageBuilder.content("Digite &help para ver meus comandos"));
+      } catch (e) {
+        await logError(e);
+      }
     } else {
-      event.message.channel.sendMessage(MessageBuilder.content(randomText()));
+      try {
+        await event.message.channel
+            .sendMessage(MessageBuilder.content(randomText()));
+      } catch (e) {
+        await logError(e);
+      }
     }
   });
 
