@@ -2,3 +2,4 @@ lib/config/
 .dart_tool
 .env
 lib/utils/text_list.dart
+error.log
