@@ -25,6 +25,11 @@ void botv2() {
     final content = event.message.content;
     String? attachmentImage;
 
+    if (event.message.author.bot) {
+      // Ignore messages sent by bots
+      return;
+    }
+
     // Check if the message starts with the "&make" command
     if (content.startsWith('&make') && content.length >= 7) {
       for (var a in event.message.attachments) {
@@ -68,12 +73,13 @@ void botv2() {
 
     // Check if the message starts with the "&help" command
     if (content.startsWith('&help')) {
+      print(event.message.member!.effectivePermissions.toString());
       // Create an embed message with the list of available commands
       final embed = EmbedBuilder(
         author: EmbedAuthorBuilder(
           iconUrl:
               'https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32',
-          name: 'MIP - Multithreading Image Processor V1.4',
+          name: 'MIP - Multithreading Image Processor V1.5',
         ),
         title: 'COMMANDS',
         description: commands,
@@ -94,7 +100,7 @@ void botv2() {
         author: EmbedAuthorBuilder(
           iconUrl:
               'https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32',
-          name: 'MIP - Multithreading Image Processor V1.4',
+          name: 'MIP - Multithreading Image Processor V1.5',
         ),
         title: 'UPDATES',
         description: updates,
