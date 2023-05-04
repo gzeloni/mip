@@ -85,7 +85,7 @@ void botv1_5() {
     }
 
     // Check if the message starts with the "&help" command
-    if (content.startsWith('&help')) {
+    if (content.startsWith('&help') && content.length >= 7) {
       // Create an embed message with the list of available commands
       final embed = EmbedBuilder(
         author: EmbedAuthorBuilder(
@@ -110,7 +110,7 @@ void botv1_5() {
     }
 
     // Check if the message starts with the "&updates" command
-    if (content.startsWith('&updates')) {
+    if (content.startsWith('&updates') && content.length >= 7) {
       // Create an embed message with the latest updates
       final embed = EmbedBuilder(
         author: EmbedAuthorBuilder(

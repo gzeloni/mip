@@ -10,11 +10,8 @@ gaussian: Apply a blur effect to the image [-blur]\n
 emboss: Apply a emboss convolution filter to the given image''';
 
 String updates = '''
-Now the "bulge" command has three options to manipulate the distortion shape. They are: x, y, and radius.\n
-Two new commands!\nType "gaussian" to make a blur in the image or "emboss" to make a emboss convolution.
-The "gaussian" command has one option to manipulate the blur. Type -blur <value> after "gaussian".\n
-To use these new commands, it's necessary to add a hyphen before the option, for example: 
-"&make bulge -x 10 -y 100 -radius 50 <image link>"
-"&make gaussian -blur 10 <image link>"\n
-These options will be extended to the other commands in the upcoming updates.
+Multithreading Image Processor version 1.5 released!
+All severe bugs that caused the bot to crash have been fixed.
+Multithreading system tested and functioning! 
+You can send as many images as you want, all of them will be individually processed without leaving anything behind.
 ''';

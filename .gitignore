@@ -3,3 +3,4 @@ lib/config/
 .env
 lib/utils/text_list.dart
 error.log
+lib/utils/commands_list.dart
