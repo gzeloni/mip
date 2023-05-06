@@ -10,7 +10,7 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'package:image/image.dart' as img;
-import 'package:multithreading_image_processor/functions.dart';
+import 'package:multithreading_image_processor/models/functions.dart';
 import 'package:http/http.dart' as http;
 
 class Mip {
@@ -55,6 +55,7 @@ class Mip {
       'bulge': false,
       'gaussian': false,
       'emboss': false,
+      'sobel': false
     };
 
     // Initialize variables for vignette and bulge options
@@ -69,36 +70,29 @@ class Mip {
       // check if word starts with '-' to identify an option
       if (word.startsWith('-')) {
         final key = word.substring(1);
-        if (key == 'x' &&
-            words.indexOf(word) + 1 < words.length &&
-            ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+        bool index = words.indexOf(word) + 1 < words.length;
+        bool isNumeric =
+            ImageProcessing.isNumeric(words[words.indexOf(word) + 1]);
+        if (key == 'x' && index && isNumeric) {
           // if option is 'x' and the next word is a number, parse it to int and save it as centerX
           centerX = int.parse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
-        } else if (key == 'y' &&
-            words.indexOf(word) + 1 < words.length &&
-            ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+        } else if (key == 'y' && index && isNumeric) {
           // if option is 'y' and the next word is a number, parse it to int and save it as centerY
           centerY = int.parse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
-        } else if (key == 'radius' &&
-            words.indexOf(word) + 1 < words.length &&
-            ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+        } else if (key == 'radius' && index && isNumeric) {
           // if option is 'radius' and the next word is a number, parse it to double and save it as radius
           radius = double.tryParse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
-        } else if (key == 'blur' &&
-            words.indexOf(word) + 1 < words.length &&
-            ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+        } else if (key == 'blur' && index && isNumeric) {
           // if option is 'radius' and the next word is a number, parse it to double and save it as radius
           gaussRadius = int.parse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
         } else if (shouldApply.containsKey(key)) {
           // if option is valid and doesn't require a value, set its value to true
           shouldApply[key] = true;
-          if (key == 'vignette' &&
-              words.indexOf(word) + 1 < words.length &&
-              ImageProcessing.isNumeric(words[words.indexOf(word) + 1])) {
+          if (key == 'vignette' && index && isNumeric) {
             // if option is 'vignette' and the next word is a number, parse it to double and save it as vignetteThickness
             vignetteThickness = double.tryParse(words[words.indexOf(word) + 1]);
           }
@@ -163,6 +157,12 @@ class Mip {
     if (shouldApply['emboss']!) {
       // Apply emboss convolution filter to the image
       processedImage = ImageProcessing.applyEmboss(processedImage);
+    }
+
+    // Check if 'sobel' flag is enabled
+    if (shouldApply['sobel']!) {
+      // Apply sobel edge detection filtering to the image
+      processedImage = ImageProcessing.applySobel(processedImage);
     }
 
     // Get the sendPort from the arguments and send the processed image

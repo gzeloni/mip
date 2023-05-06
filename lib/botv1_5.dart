@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:multithreading_image_processor/config/config.dart';
-import 'package:multithreading_image_processor/functions.dart';
+import 'package:multithreading_image_processor/models/functions.dart';
 import 'package:multithreading_image_processor/mip.dart';
 import 'package:multithreading_image_processor/models/log_function.dart';
 import 'package:multithreading_image_processor/utils/commands_list.dart';

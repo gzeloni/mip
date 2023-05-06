@@ -85,4 +85,33 @@ class ImageProcessing {
     final invert = img.emboss(image);
     return invert;
   }
+
+  static img.Image applyAdjustColor(
+    img.Image image, {
+    num? contrast,
+    num? saturation,
+    num? brightness,
+    num? gamma,
+    num? exposure,
+    num? hue,
+  }) {
+    final invert = img.adjustColor(image,
+        contrast: contrast,
+        saturation: saturation,
+        brightness: brightness,
+        gamma: gamma,
+        exposure: exposure,
+        hue: hue,
+        amount: 1);
+    return invert;
+  }
+
+  static img.Image applySobel(img.Image image) {
+    final resize = img.copyResize(image, width: 128, height: 64);
+    final apSobel = img.sobel(resize);
+    final apLuminance = img.luminanceThreshold(apSobel);
+    final uint8 = apLuminance.toUint8List();
+    print(uint8.toString());
+    return apLuminance;
+  }
 }
