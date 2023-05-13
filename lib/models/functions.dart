@@ -11,10 +11,10 @@ class ImageProcessing {
 
   /// This method returns a file name for the processed image based on the current date and time.
   /// @return Returns a string representing the file name.
-  static String fileName() {
+  static String fileName(bool isGif) {
     DateTime date = DateTime.now();
     String iso8601 = date.toIso8601String();
-    return 'assets/$iso8601-output.png';
+    return isGif ? 'assets/$iso8601-output.gif' : 'assets/$iso8601-output.png';
   }
 
   /// This method applies a black and white filter to the given image.
@@ -107,11 +107,7 @@ class ImageProcessing {
   }
 
   static img.Image applySobel(img.Image image) {
-    final resize = img.copyResize(image, width: 128, height: 64);
-    final apSobel = img.sobel(resize);
-    final apLuminance = img.luminanceThreshold(apSobel);
-    final uint8 = apLuminance.toUint8List();
-    print(uint8.toString());
-    return apLuminance;
+    final apSobel = img.sobel(image);
+    return apSobel;
   }
 }
