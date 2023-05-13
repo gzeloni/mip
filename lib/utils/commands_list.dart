@@ -10,8 +10,9 @@ gaussian: Apply a blur effect to the image [-blur]\n
 emboss: Apply a emboss convolution filter to the given image''';
 
 String updates = '''
-Multithreading Image Processor version 1.5 released!
-All severe bugs that caused the bot to crash have been fixed.
-Multithreading system tested and functioning! 
-You can send as many images as you want, all of them will be individually processed without leaving anything behind.
+Multithreading Image Processor version 1.6 released!
+New command "&gif" !
+Now you can find gifs
+Support to gif processing added!
+Now you can apply filter to gifs.
 ''';

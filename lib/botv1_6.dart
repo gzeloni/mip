@@ -4,7 +4,7 @@ import 'package:multithreading_image_processor/models/log_function.dart';
 import 'package:multithreading_image_processor/utils/text_list.dart';
 import "package:nyxx/nyxx.dart";
 
-void botv1_5() {
+void botv1_6() {
   // Create Nyxx bot instance with necessary intents
   final bot = NyxxFactory.createNyxxWebsocket(
       Config.getToken(),
