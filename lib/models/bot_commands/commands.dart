@@ -108,7 +108,7 @@ class BotCommands {
       }
 
       // Check if the message starts with the "&updates" command
-      if (content.startsWith('&updates') && content.length <= 7) {
+      if (content.startsWith('&updates') && content.length <= 9) {
         // Create an embed message with the latest updates
         final embed = EmbedBuilder(
           author: EmbedAuthorBuilder(
