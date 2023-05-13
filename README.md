@@ -6,19 +6,19 @@
 
 | Without filter | P&B filter | Inverted filter |
 |---|---|---|
-| ![Image](https://i.ibb.co/yyXqTfH/sem-filtro.jpg) | ![Image](https://i.ibb.co/hXXzLWM/p-b.png) | ![Image](https://i.ibb.co/tBvQyBG/inverted.png) |
+| ![Image](output_examples/sem_filtro.jpeg) | ![Image](output_examples/p_b.png) | ![Image](output_examples/inverted.png) |
 
 | Billboard filter | Sepia filter | Bulge filter |
 |---|---|---|
-| ![Image](https://i.ibb.co/VH76hg5/billboard.png) | ![Image](https://i.ibb.co/JKVQxvq/sepia.png) | ![Image](https://i.ibb.co/QQnJH4Z/bulge.png) |
+| ![Image](output_examples/billboard.png) | ![Image](output_examples/sepia.png) | ![Image](output_examples/bulge.png) |
 
 | Vignette filter | Gaussian filter | Emboss filter |
 |---|---|---|
-| ![Image](https://i.ibb.co/cX015vp/vignette.png) | ![Image](https://i.ibb.co/t3q6kKw/gaussian.png) | ![Image](https://i.ibb.co/tMDPbx8/emboss.png) |
+| ![Image](output_examples/vignette.png) | ![Image](output_examples/gaussian.png) | ![Image](output_examples/emboss.png) |
 
 | Sobel filter |
 |---|
-| ![Image](https://i.ibb.co/JjhKnX5/sobel.png) |
+| ![Image](output_examples/sobel.png) |
 
 #### You can combine the filters and use flags, such as: "&make bulge -x 20 -y 30 -radius 160 image \<link here\>"
 
