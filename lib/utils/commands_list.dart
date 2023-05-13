@@ -1,4 +1,4 @@
-String commands = '''
+String commandsList = '''
 &make <link> parameters (the link can be added anywhere in the command)\n
 p&b: Apply a black and white filter to the image\n
 inverted: Apply a inverted color filter to the image\n
