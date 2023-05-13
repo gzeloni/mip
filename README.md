@@ -22,6 +22,10 @@
 
 #### You can combine the filters and use flags, such as: "&make bulge -x 20 -y 30 -radius 160 image \<link here\>"
 
+## GIF Support
+#### In update 1.6, support for processing GIFs was added.
+#### The "&gif" command was also added, which makes it possible to search for GIFs, using the GIPHY API.
+
 ## The goal
 #### The goal of this project is to provide a bot-based interface for users to submit image processing requests, which are then completed and returned with the specified filters applied.
 
@@ -37,6 +41,7 @@
     gaussian: Apply a blur effect to the image [-blur]
     emboss: Apply a emboss convolution filter to the given image
     sobel: Apply a sobel edge detection filter to the given image
+    gif: performs a search for 10 gifs according to the search term, stores it in a list and returns a random GIF from the list.
 
 #### Flags
 ##### Bulge command:
@@ -53,7 +58,43 @@
     The gaussian filter has the flag "-blur" to control the blur of the filter.
     "&make gaussian -blur 6 <link>"
     
+## How to run?
+#### To run this program, you need a discord API and a GIPHY API.
+First, create a config folder `lib/config/`
+Then create a file named `config.dart` inside the `lib/config/` folder:
+```dart
+class Config {
+  static const String _discordToken =
+      "<TOKEN>";
+
+  static const String _giphyToken = '<TOKEN>';
+
+  static String getDiscordToken() {
+    return _discordToken;
+  }
+
+  static String getGiphyToken() {
+    return _giphyToken;
+  }
+}
+```
+
+#### Then create a folder in the root of the project named `assets/`
+#### And finally, create a file in `lib/utils/` with the name `text_list.dart`: 
+```dart
+List textList = [
+  'Put some answers inside this list',
+  'These are the responses',
+  'for when someone tags the bot',
+  'and types something after the @',
+  'example: "@MIP I hate you"',
+];
+
+String randomText() {
+  var randomItem = (textList..shuffle()).first;
+  return randomItem.toString();
+}
+```
 
 ## Does it work with Flutter?
-
-##### While MIP is not currently compatible with Flutter, it is part of the project's future plans to make it possible to use via the NetworkImage object and Image.network() widget.
+#### While MIP is not currently compatible with Flutter, it is part of the project's future plans to make it possible to use via the NetworkImage object and Image.network() widget.
