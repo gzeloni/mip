@@ -7,7 +7,7 @@ import "package:nyxx/nyxx.dart";
 void botv1_6() {
   // Create Nyxx bot instance with necessary intents
   final bot = NyxxFactory.createNyxxWebsocket(
-      Config.getToken(),
+      Config.getDiscordToken(),
       GatewayIntents.allUnprivileged |
           GatewayIntents.allPrivileged |
           GatewayIntents.messageContent)
