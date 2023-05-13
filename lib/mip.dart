@@ -16,12 +16,15 @@ import 'package:http/http.dart' as http;
 class Mip {
   final List<String> words;
   Mip({required this.words});
+  bool isGif = false;
 
   Future<void> mip(String imageLink, String filename) async {
     try {
-      final response = await http.get(Uri.parse(imageLink));
+      final uri = Uri.parse(imageLink);
+      final isGif = uri.path.toLowerCase().contains('.gif');
+      final response = await http.get(uri);
       final bytes = response.bodyBytes;
-      final image = img.decodeImage(bytes);
+      final image = isGif ? img.decodeGif(bytes) : img.decodeImage(bytes);
 
       // Spawn an isolate to process the image
       final receivePort = ReceivePort();
@@ -34,7 +37,8 @@ class Mip {
         },
       );
       final newImage = await receivePort.first as img.Image;
-      await File(filename).writeAsBytes(img.encodePng(newImage));
+      await File(filename).writeAsBytes(
+          isGif == true ? img.encodeGif(newImage) : img.encodePng(newImage));
     } catch (e) {
       print(e.toString());
     }
