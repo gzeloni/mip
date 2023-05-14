@@ -10,7 +10,8 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'package:image/image.dart' as img;
-import 'package:multithreading_image_processor/models/functions.dart';
+import 'package:multithreading_image_processor/constants/options.dart';
+import 'package:multithreading_image_processor/models/filters.dart';
 import 'package:http/http.dart' as http;
 
 class Mip {
@@ -49,26 +50,6 @@ class Mip {
     final image = args['image'] as img.Image;
     final words = args['words'] as List<String>;
 
-    // Set default options for processing
-    final shouldApply = <String, bool>{
-      'p&b': false,
-      'inverted': false,
-      'vignette': false,
-      'billboard': false,
-      'sepia': false,
-      'bulge': false,
-      'gaussian': false,
-      'emboss': false,
-      'sobel': false
-    };
-
-    // Initialize variables for vignette and bulge options
-    double? vignetteThickness;
-    int? centerX;
-    int? centerY;
-    int? gaussRadius;
-    double? radius;
-
     // Parse the options from the list of words
     for (final word in words) {
       // check if word starts with '-' to identify an option
@@ -93,6 +74,10 @@ class Mip {
           // if option is 'radius' and the next word is a number, parse it to double and save it as radius
           gaussRadius = int.parse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
+        } else if (key == 'shift' && index && isNumeric) {
+          // if option is 'radius' and the next word is a number, parse it to double and save it as radius
+          gaussRadius = int.parse(words[words.indexOf(word) + 1]);
+          shouldApply[key] = true;
         } else if (shouldApply.containsKey(key)) {
           // if option is valid and doesn't require a value, set its value to true
           shouldApply[key] = true;
@@ -100,6 +85,8 @@ class Mip {
             // if option is 'vignette' and the next word is a number, parse it to double and save it as vignetteThickness
             vignetteThickness = double.tryParse(words[words.indexOf(word) + 1]);
           }
+        } else if (!isNumeric) {
+          return;
         }
       } else if (shouldApply.containsKey(word)) {
         // if word is a valid option and doesn't require a value, set its value to true
@@ -167,6 +154,19 @@ class Mip {
     if (shouldApply['sobel']!) {
       // Apply sobel edge detection filtering to the image
       processedImage = ImageProcessing.applySobel(processedImage);
+    }
+
+    // Check if 'sketch' flag is enabled
+    if (shouldApply['sketch']!) {
+      // Apply sketch filter to the image
+      processedImage = ImageProcessing.applySketch(processedImage);
+    }
+
+    // Check if 'chromatic' flag is enabled
+    if (shouldApply['chromatic']!) {
+      // Apply chromatic aberration filter to the image
+      processedImage =
+          ImageProcessing.applyChromatic(processedImage, shift ?? 5);
     }
 
     // Get the sendPort from the arguments and send the processed image
