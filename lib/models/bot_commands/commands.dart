@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:multithreading_image_processor/data/urls_list.dart';
 import 'package:multithreading_image_processor/mip.dart';
-import 'package:multithreading_image_processor/models/functions.dart';
+import 'package:multithreading_image_processor/models/filters.dart';
 import 'package:multithreading_image_processor/models/gifs.dart';
 import 'package:multithreading_image_processor/models/log_function.dart';
 import 'package:multithreading_image_processor/utils/commands_list.dart';
@@ -16,6 +16,7 @@ class BotCommands {
       final words = content.split(' ');
       String? attachmentImage;
       bool isGif = false;
+      bool linkIsValid = false;
 
       if (event.message.author.bot) {
         // Ignore messages sent by bots
@@ -38,11 +39,26 @@ class BotCommands {
         if (links.isEmpty && attachmentImage != null) {
           links.add(attachmentImage);
         }
-        // Check if any of the links are GIFs
+
         for (final link in links) {
+          // Check if any of the links are GIFs
           if (link.contains('.gif')) {
             isGif = true;
-            break;
+          }
+          // Check if the link is valid
+          try {
+            final client = HttpClient();
+            final request = await client.headUrl(Uri.parse(link));
+            final response = await request.close();
+            if (response.statusCode == HttpStatus.ok) {
+              linkIsValid = true;
+            } else {
+              return;
+            }
+          } catch (e) {
+            // link is not valid, show an error message
+            await event.message.channel.sendMessage(
+                MessageBuilder.content('O link inserido não é válido.'));
           }
         }
         // If there's not exactly one link, send an error message and return
@@ -56,30 +72,36 @@ class BotCommands {
           return;
         }
 
-        // Generate a unique filename for the processed image
-        final filename = ImageProcessing.fileName(isGif).toString();
-        // Send a message indicating that the image is being processed
-        try {
-          await event.message.channel.sendMessage(
-              MessageBuilder.content('Aguarde a imagem ser processada...'));
-        } catch (e) {
-          sendEmbedMessageErrorHandler(e, event, bot);
+        // If the link is valid, continue
+        if (linkIsValid == true) {
+          // Generate a unique filename for the processed image
+          final filename = ImageProcessing.fileName(isGif).toString();
+          // Send a message indicating that the image is being processed
+          try {
+            await event.message.channel.sendMessage(
+                MessageBuilder.content('Aguarde a imagem ser processada...'));
+          } catch (e) {
+            sendEmbedMessageErrorHandler(e, event, bot);
+          }
+
+          // Create a new Mip instance with the message content
+          final mip = Mip(words: content.split(' '));
+          await mip.mip(links[0], filename);
+
+          // Send the processed image back to the Discord channel
+          final files = [AttachmentBuilder.file(File(filename))];
+          try {
+            await event.message.channel
+                .sendMessage(MessageBuilder.files(files));
+          } catch (e) {
+            sendEmbedMessageErrorHandler(e, event, bot);
+          }
+
+          // Delete the processed image file to free up disk space
+          File(filename).delete();
+        } else {
+          return;
         }
-
-        // Create a new Mip instance with the message content
-        final mip = Mip(words: content.split(' '));
-        await mip.mip(links[0], filename);
-
-        // Send the processed image back to the Discord channel
-        final files = [AttachmentBuilder.file(File(filename))];
-        try {
-          await event.message.channel.sendMessage(MessageBuilder.files(files));
-        } catch (e) {
-          sendEmbedMessageErrorHandler(e, event, bot);
-        }
-
-        // Delete the processed image file to free up disk space
-        File(filename).delete();
       }
 
       // Check if the message starts with the "&help" command
