@@ -88,6 +88,7 @@ class ImageProcessing {
     return invert;
   }
 
+  /// This method applies a sobel edge detection filter to the given image.
   /// @param [image] The image to apply the filter to.
   /// @return Returns a new image with the filter applied.
   static img.Image applySobel(img.Image image) {
@@ -95,6 +96,7 @@ class ImageProcessing {
     return apSobel;
   }
 
+  /// This method applies a sketch filter to the given image.
   /// @param [image] The image to apply the filter to.
   /// @return Returns a new image with the filter applied.
   static img.Image applySketch(img.Image image) {
@@ -102,6 +104,7 @@ class ImageProcessing {
     return apSketch;
   }
 
+  /// This method applies a chromatic aberration filter to the given image.
   /// @param [image] The image to apply the filter to.
   /// @return Returns a new image with the filter applied.
   static img.Image applyChromatic(img.Image image, int shift) {
