@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:multithreading_image_processor/constants/list-of-dirty-naughty-obscene-and-otherwise-bad-words-master/all_offensive_words_list.dart';
 import 'package:multithreading_image_processor/data/urls_list.dart';
 import 'package:multithreading_image_processor/mip.dart';
 import 'package:multithreading_image_processor/models/filters.dart';
+import 'package:multithreading_image_processor/models/get_offensive_terms.dart';
 import 'package:multithreading_image_processor/models/gifs.dart';
 import 'package:multithreading_image_processor/models/log_function.dart';
 import 'package:multithreading_image_processor/utils/commands_list.dart';
@@ -18,6 +20,7 @@ class BotCommands {
         String? attachmentImage;
         bool isGif = false;
         bool linkIsValid = false;
+        Trie trie = Trie();
 
         if (event.message.author.bot) {
           // Ignore messages sent by bots
@@ -159,25 +162,44 @@ class BotCommands {
         }
 
         if (content.startsWith('&gif') && content.length >= 7) {
-          // If there's not exactly one link, send an error message and return
-          if (words.length < 2) {
+          for (final list in allOffensiveWords) {
+            for (final palavra in list) {
+              trie.insert(palavra);
+            }
+          }
+
+          List<String> words = content.split(' ').toList();
+          List<String> offensiveWords = verifyOffensiveWords(words, trie);
+
+          if (offensiveWords.isNotEmpty) {
             try {
               await event.message.channel.sendMessage(MessageBuilder.content(
-                  'Por favor, insira o termo da pesquisa após o comando " <gif " !'));
+                  'Você não pode pesquisar usando esse termos!'));
             } catch (e) {
               sendEmbedMessageErrorHandler(e, event, bot);
             }
             return;
           } else {
-            try {
-              String termos = words.sublist(1).join(' ');
-              await getBartGifs(termos);
-              var randomItem = (gifUrls..shuffle()).first;
-              await event.message.channel
-                  .sendMessage(MessageBuilder.content(randomItem.toString()));
-              gifUrls.clear();
-            } catch (e) {
-              sendEmbedMessageErrorHandler(e, event, bot);
+            // If there's not exactly one link, send an error message and return
+            if (words.length < 2) {
+              try {
+                await event.message.channel.sendMessage(MessageBuilder.content(
+                    'Por favor, insira o termo da pesquisa após o comando " <gif " !'));
+              } catch (e) {
+                sendEmbedMessageErrorHandler(e, event, bot);
+              }
+              return;
+            } else {
+              try {
+                String termos = words.sublist(1).join(' ');
+                await getBartGifs(termos);
+                var randomItem = (gifUrls..shuffle()).first;
+                await event.message.channel
+                    .sendMessage(MessageBuilder.content(randomItem.toString()));
+                gifUrls.clear();
+              } catch (e) {
+                sendEmbedMessageErrorHandler(e, event, bot);
+              }
             }
           }
         }
