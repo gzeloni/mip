@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:multithreading_image_processor/constants/list-of-dirty-naughty-obscene-and-otherwise-bad-words-master/all_offensive_words_list.dart';
+import 'package:multithreading_image_processor/constants/offensive_words_28_languages/all_offensive_words_list.dart';
 import 'package:multithreading_image_processor/data/urls_list.dart';
 import 'package:multithreading_image_processor/mip.dart';
 import 'package:multithreading_image_processor/models/filters.dart';
@@ -162,14 +162,18 @@ class BotCommands {
         }
 
         if (content.startsWith('&gif') && content.length >= 7) {
+          // Insert offensive words into the trie
           for (final list in allOffensiveWords) {
             for (final palavra in list) {
               trie.insert(palavra);
             }
           }
+
+          // Verify if any words in the message are offensive
           List<String> offensiveWords = verifyOffensiveWords(words, trie);
 
           if (offensiveWords.isNotEmpty) {
+            // If offensive words are found, send an error message and return
             try {
               await event.message.channel.sendMessage(MessageBuilder.content(
                   'Você não pode pesquisar usando esses termos!'));
@@ -188,6 +192,7 @@ class BotCommands {
               }
               return;
             } else {
+              // Perform the GIF search and send a random GIF
               try {
                 String termos = words.sublist(1).join(' ');
                 await getBartGifs(termos);

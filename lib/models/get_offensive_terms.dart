@@ -8,6 +8,7 @@ class TrieNode {
 class Trie {
   final TrieNode _root = TrieNode();
 
+  /// Inserts a word into the trie.
   void insert(String word) {
     TrieNode? node = _root;
     for (int i = 0; i < word.length; i++) {
@@ -20,6 +21,7 @@ class Trie {
     node!.isEndOfWord = true;
   }
 
+  /// Searches for a word in the trie.
   bool search(String word) {
     TrieNode node = _root;
     for (int i = 0; i < word.length; i++) {
@@ -33,12 +35,13 @@ class Trie {
   }
 }
 
+/// Verifies if any word in the given list is offensive using the trie.
 List<String> verifyOffensiveWords(List<String> words, Trie trie) {
   final List<String> offensiveWords = [];
 
-  for (final palavra in words) {
-    if (trie.search(palavra)) {
-      offensiveWords.add(palavra);
+  for (final word in words) {
+    if (trie.search(word)) {
+      offensiveWords.add(word);
     }
   }
 
