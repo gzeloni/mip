@@ -11,9 +11,6 @@ emboss: Apply a emboss convolution filter to the given image\n
 sobel: Apply a sobel edge detection filter to the given image.''';
 
 String updates = '''
-Multithreading Image Processor version 1.6 released!
-New command "&gif" !
-Now you can find gifs
-Support to gif processing added!
-Now you can apply filter to gifs.
+Multithreading Image Processor version 1.7 released!
+Offensive words blocked on "&gif" command
 ''';

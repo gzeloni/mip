@@ -115,7 +115,7 @@ class BotCommands {
             author: EmbedAuthorBuilder(
               iconUrl:
                   'https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32',
-              name: 'MIP - Multithreading Image Processor V1.6',
+              name: 'MIP - Multithreading Image Processor V1.7',
             ),
             title: 'COMMANDS',
             description: commandsList,
@@ -141,7 +141,7 @@ class BotCommands {
             author: EmbedAuthorBuilder(
               iconUrl:
                   'https://cdn.discordapp.com/app-icons/998373616691449996/eabdfb3b287b8c69b38d1d399884b54e.png?size=32',
-              name: 'MIP - Multithreading Image Processor V1.6',
+              name: 'MIP - Multithreading Image Processor V1.7',
             ),
             title: 'UPDATES',
             description: updates,

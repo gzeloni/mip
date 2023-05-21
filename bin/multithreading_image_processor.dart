@@ -1,5 +1,5 @@
-import 'package:multithreading_image_processor/botv1_6.dart';
+import 'package:multithreading_image_processor/botv1_7.dart';
 
 void main() {
-  botv1_6();
+  botv1_7();
 }
