@@ -174,7 +174,7 @@ class BotCommands {
           if (offensiveWords.isNotEmpty) {
             try {
               await event.message.channel.sendMessage(MessageBuilder.content(
-                  'Você não pode pesquisar usando esse termos!'));
+                  'Você não pode pesquisar usando esses termos!'));
             } catch (e) {
               sendEmbedMessageErrorHandler(e, event, bot);
             }
