@@ -12,5 +12,5 @@ sobel: Apply a sobel edge detection filter to the given image.''';
 
 String updates = '''
 Multithreading Image Processor version 1.7 released!
-Offensive words blocked on "&gif" command
+Offensive words blocked on "&gif" command.
 ''';
