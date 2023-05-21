@@ -167,8 +167,6 @@ class BotCommands {
               trie.insert(palavra);
             }
           }
-
-          List<String> words = content.split(' ').toList();
           List<String> offensiveWords = verifyOffensiveWords(words, trie);
 
           if (offensiveWords.isNotEmpty) {
