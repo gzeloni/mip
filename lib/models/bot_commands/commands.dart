@@ -164,8 +164,8 @@ class BotCommands {
         if (content.startsWith('&gif') && content.length >= 7) {
           // Insert offensive words into the trie
           for (final list in allOffensiveWords) {
-            for (final palavra in list) {
-              trie.insert(palavra);
+            for (final word in list) {
+              trie.insert(word);
             }
           }
 
