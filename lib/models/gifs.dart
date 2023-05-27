@@ -3,7 +3,7 @@ import 'package:multithreading_image_processor/data/urls_list.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<List<dynamic>> getBartGifs(String searchTerm) async {
+Future<List<dynamic>> getGifs(String searchTerm) async {
   String apiKey = Config.getGiphyToken();
   String url =
       'https://api.giphy.com/v1/gifs/search?q=$searchTerm&api_key=$apiKey&limit=10';
