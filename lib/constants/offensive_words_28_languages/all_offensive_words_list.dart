@@ -8,7 +8,7 @@ import 'package:multithreading_image_processor/constants/offensive_words_28_lang
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fa.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fi.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fil.dart';
-import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fr-CA-u-sd-caqc.dart';
+import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fr_CA_u_sd_caqc.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fr.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/hi.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/hu.dart';
