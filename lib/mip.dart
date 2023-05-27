@@ -71,12 +71,12 @@ class Mip {
           radius = double.tryParse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
         } else if (key == 'blur' && index && isNumeric) {
-          // if option is 'radius' and the next word is a number, parse it to double and save it as radius
+          // if option is 'blur' and the next word is a number, parse it to double and save it as radius
           gaussRadius = int.parse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
         } else if (key == 'shift' && index && isNumeric) {
-          // if option is 'radius' and the next word is a number, parse it to double and save it as radius
-          gaussRadius = int.parse(words[words.indexOf(word) + 1]);
+          // if option is 'shift' and the next word is a number, parse it to double and save it as radius
+          shift = int.parse(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
         } else if (shouldApply.containsKey(key)) {
           // if option is valid and doesn't require a value, set its value to true
