@@ -108,7 +108,7 @@ class ImageProcessing {
   /// @param [image] The image to apply the filter to.
   /// @return Returns a new image with the filter applied.
   static img.Image applyChromatic(img.Image image, int shift) {
-    final chromatic = img.chromaticAberration(image);
+    final chromatic = img.chromaticAberration(image, shift: shift);
     return chromatic;
   }
 }
