@@ -177,7 +177,7 @@ class BotCommands {
             // If offensive words are found, send an error message and return
             try {
               await event.message.channel.sendMessage(MessageBuilder.content(
-                  'Você não pode pesquisar usando esses termos!'));
+                  'Você não pode pesquisar usando esses terms!'));
             } catch (e) {
               sendEmbedMessageErrorHandler(e, event, bot);
             }
@@ -195,8 +195,9 @@ class BotCommands {
             } else {
               // Perform the GIF search and send a random GIF
               try {
-                String termos = words.sublist(1).join(' ');
-                await getBartGifs(termos);
+                String terms = words.sublist(1).join('-');
+                print(terms);
+                await getGifs(terms);
                 var randomItem = (gifUrls..shuffle()).first;
                 await event.message.channel
                     .sendMessage(MessageBuilder.content(randomItem.toString()));
