@@ -1,6 +1,6 @@
 name: multithreading_image_processor
 description: A sample command-line application.
-version: 1.7.0
+version: 1.8.0
 
 environment:
   sdk: ^3.0.0

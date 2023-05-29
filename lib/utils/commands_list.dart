@@ -13,6 +13,6 @@ sketch: Apply sketch filter to the given image\n
 chromatic: Apply chromatic aberration filter to the given image.''';
 
 String updates = '''
-Multithreading Image Processor version 1.7 released!
-Offensive words blocked on "&gif" command.
+Multithreading Image Processor version 1.8 released!
+Fixed all bugs in offensive word detection.
 ''';
