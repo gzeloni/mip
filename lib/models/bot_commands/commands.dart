@@ -41,6 +41,17 @@ class BotCommands {
                   element.contains('http://') || element.contains('https://'))
               .toList();
 
+          // If there's not exactly one link, send an error message and return
+          if (links.length != 1) {
+            try {
+              await event.message.channel.sendMessage(MessageBuilder.content(
+                  'Por favor, insira apenas um link após o comando `&make`.'));
+            } catch (e) {
+              sendEmbedMessageErrorHandler(e, event, bot);
+            }
+            return;
+          }
+
           // Check if there are no links and if there is a non-null attachment
           if (links.isEmpty && attachmentImage != null) {
             links.add(attachmentImage);
@@ -79,16 +90,6 @@ class BotCommands {
               await event.message.channel.sendMessage(
                   MessageBuilder.content('O link inserido não é válido.'));
             }
-          }
-          // If there's not exactly one link, send an error message and return
-          if (links.length != 1) {
-            try {
-              await event.message.channel.sendMessage(MessageBuilder.content(
-                  'Por favor, insira apenas um link após o comando `&make`.'));
-            } catch (e) {
-              sendEmbedMessageErrorHandler(e, event, bot);
-            }
-            return;
           }
 
           // If the link is valid, continue
