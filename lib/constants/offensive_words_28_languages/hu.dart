@@ -94,5 +94,5 @@ List<String> hu = [
   "szarik",
   "szarok",
   "szarokat",
-  "szart",
+  "szart"
 ];

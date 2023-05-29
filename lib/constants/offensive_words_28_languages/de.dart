@@ -39,7 +39,6 @@ List<String> de = [
   "nutte",
   "onanieren",
   "orgasmus",
-  "penis",
   "pimmel",
   "pimpern",
   "pinkeln",
@@ -64,5 +63,5 @@ List<String> de = [
   "vollpfosten",
   "wichse",
   "wichsen",
-  "wichser",
+  "wichser"
 ];

@@ -7,14 +7,11 @@ import 'package:multithreading_image_processor/constants/offensive_words_28_lang
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/es.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fa.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fi.dart';
-import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fil.dart';
-import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fr_CA_u_sd_caqc.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/fr.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/hi.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/hu.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/it.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/ja.dart';
-import 'package:multithreading_image_processor/constants/offensive_words_28_languages/kab.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/ko.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/nl.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/no.dart';
@@ -37,14 +34,11 @@ List<List<String>> allOffensiveWords = [
   es,
   fa,
   fi,
-  fil,
-  frCAusdcaqc,
   fr,
   hi,
   hu,
   it,
   ja,
-  kab,
   ko,
   nl,
   no,

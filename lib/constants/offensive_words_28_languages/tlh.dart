@@ -1,5 +1,1 @@
-List<String> tlh = [
-  "ghuy'cha'",
-  "QI'yaH",
-  "Qu'vatlh",
-];
+List<String> tlh = ["ghuy'cha'", "QI'yaH", "Qu'vatlh"];

@@ -35,5 +35,5 @@ List<String> eo = [
   "kojono",
   "piĉen",
   "piĉo",
-  "zamenfek",
+  "zamenfek"
 ];
