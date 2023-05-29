@@ -15,6 +15,7 @@ dependencies:
   dotenv: ^4.1.0
   http: ^0.13.5
   image: ^4.0.15
+  mime: ^1.0.4
   nyxx: ^5.0.3
   nyxx_commands: ^5.0.2
 

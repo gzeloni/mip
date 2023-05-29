@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
 import 'package:multithreading_image_processor/constants/offensive_words_28_languages/all_offensive_words_list.dart';
 import 'package:multithreading_image_processor/data/urls_list.dart';
 import 'package:multithreading_image_processor/mip.dart';
@@ -52,16 +53,29 @@ class BotCommands {
             }
             // Check if the link is valid
             try {
-              final client = HttpClient();
-              final request = await client.headUrl(Uri.parse(link));
-              final response = await request.close();
+              final response = await http
+                  .head(Uri.parse(link)); // Send a HEAD request to the link
               if (response.statusCode == HttpStatus.ok) {
-                linkIsValid = true;
+                // Check if the response status code is OK (200)
+                final contentType = response.headers[
+                    'content-type']; // Get the content type from the response headers
+                final mimeType =
+                    lookupMimeType(link); // Get the MIME type of the link
+                if (mimeType?.startsWith('image/') == true ||
+                    contentType?.startsWith('image/') == true) {
+                  linkIsValid =
+                      true; // The link is valid and returns an image or GIF
+                } else {
+                  // The link does not contain an image
+                  await event.message.channel.sendMessage(
+                      MessageBuilder.content(
+                          'O link inserido não contém uma imagem!'));
+                }
               } else {
-                return;
+                return; // Invalid response status code
               }
             } catch (e) {
-              // link is not valid, show an error message
+              // An error occurred, the link is not valid
               await event.message.channel.sendMessage(
                   MessageBuilder.content('O link inserido não é válido.'));
             }
