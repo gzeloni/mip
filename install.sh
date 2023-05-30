@@ -1,5 +1,4 @@
 #!/bin/bash
-git clone https://github.com/gzeloni/mip.git
 mkdir mip/assets mip/lib/config
 touch mip/lib/utils/text_list.dart mip/lib/config/config.dart
 echo "List textList = ['put some words here',];String randomText(){var randomItem = (textList..shuffle()).first;return randomItem.toString();}" > mip/lib/utils/text_list.dart
