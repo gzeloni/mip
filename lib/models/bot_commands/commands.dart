@@ -234,23 +234,25 @@ class BotCommands {
       },
     );
 
-    bot.eventsWs.onSelfMention.listen((event) async {
-      final content = event.message.content;
-      if (content.startsWith('<') && content.length == 21) {
-        try {
-          await event.message.channel.sendMessage(
-              MessageBuilder.content("Digite &help para ver meus comandos"));
-        } catch (e) {
-          sendEmbedMessageErrorHandler(e, event, bot);
+    bot.eventsWs.onSelfMention.listen(
+      (event) async {
+        final content = event.message.content;
+        if (content.startsWith('<') && content.length == 21) {
+          try {
+            await event.message.channel.sendMessage(
+                MessageBuilder.content("Digite &help para ver meus comandos"));
+          } catch (e) {
+            sendEmbedMessageErrorHandler(e, event, bot);
+          }
+        } else {
+          try {
+            await event.message.channel
+                .sendMessage(MessageBuilder.content(randomText()));
+          } catch (e) {
+            sendEmbedMessageErrorHandler(e, event, bot);
+          }
         }
-      } else {
-        try {
-          await event.message.channel
-              .sendMessage(MessageBuilder.content(randomText()));
-        } catch (e) {
-          sendEmbedMessageErrorHandler(e, event, bot);
-        }
-      }
-    });
+      },
+    );
   }
 }

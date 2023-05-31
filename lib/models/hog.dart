@@ -102,7 +102,6 @@ class HOG {
         }
       }
     }
-    print(featureVector);
 
     List bw = [];
     List<int> bwList = [];
