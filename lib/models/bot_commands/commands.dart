@@ -105,7 +105,7 @@ class BotCommands {
             }
 
             // Create a new Mip instance with the message content
-            final mip = Mip(words: content.split(' '));
+            final mip = MultithreadingImageProcessor(words: content.split(' '));
             await mip.mip(links[0], filename);
 
             // Send the processed image back to the Discord channel
