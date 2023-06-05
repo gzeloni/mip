@@ -48,17 +48,18 @@ class MultithreadingImageProcessor {
           isGif ? img.encodeGif(newImage) : img.encodePng(newImage),
         );
       } on FileSystemException catch (e) {
-        logError(
-            'Error in file system while saving the image: $e', 'OS_errors.log');
+        logError('Error in file system while saving the image: $e',
+            'errors/OS_errors.log');
       } catch (e) {
-        logError('Unknown error while saving the image: $e', 'OS_errors.log');
+        logError(
+            'Unknown error while saving the image: $e', 'errors/OS_errors.log');
       }
     } on IsolateSpawnException catch (e) {
-      logError('Error creating the isolate: $e', 'isolate_errors.log');
+      logError('Error creating the isolate: $e', 'errors/isolate_errors.log');
     } on RemoteError catch (e) {
-      logError('Remote error: $e', 'isolate_errors.log');
+      logError('Remote error: $e', 'errors/isolate_errors.log');
     } catch (e) {
-      logError('Unknown error: $e', 'unknown_errors.log');
+      logError('Unknown error: $e', 'errors/unknown_errors.log');
     }
   }
 
@@ -121,82 +122,84 @@ class MultithreadingImageProcessor {
     // Check if the 'p&b' flag is enabled
     if (shouldApply['p&b']!) {
       // Apply the black and white filter to the image
-      processedImage =
-          ImageProcessing.applyBlackAndWhite(image, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage, ImageProcessing.convertToGrayscale);
     }
 
     // Check if the 'inverted' flag is enabled
     if (shouldApply['inverted']!) {
       // Apply the inverted color filter to the image
-      processedImage =
-          ImageProcessing.applyInvertedColor(image, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage, ImageProcessing.applyInvertedColor);
     }
 
     // Check if the 'billboard' flag is enabled
     if (shouldApply['billboard']!) {
       // Apply the billboard filter to the image
-      processedImage =
-          ImageProcessing.applyBillboard(processedImage, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage, ImageProcessing.applyBillboard);
     }
 
     // Check if the 'sepia' flag is enabled
     if (shouldApply['sepia']!) {
       // Apply the sepia filter to the image
-      processedImage =
-          ImageProcessing.applySepia(processedImage, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage, ImageProcessing.applySepia);
     }
 
     // Check if the 'vignette' flag is enabled
     if (shouldApply['vignette']!) {
       // Apply the vignette filter to the image
-      processedImage = ImageProcessing.applyVignette(
-          processedImage, vignetteThickness ?? 1.4, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage,
+          (image) =>
+              ImageProcessing.applyVignette(image, vignetteThickness ?? 1.4));
     }
 
     // Check if the 'bulge' flag is enabled
     if (shouldApply['bulge']!) {
       // Apply the bulge filter to the image
-      processedImage = ImageProcessing.appyBulge(
+      processedImage = ImageProcessing.applyFilter(
           processedImage,
-          centerX: centerX,
-          centerY: centerY,
-          radius: radius,
-          image.hasAnimation);
+          (image) => ImageProcessing.applyBulge(image,
+              centerX: centerX, centerY: centerY, radius: radius));
     }
 
     // Check if the 'gaussian' flag is enabled
     if (shouldApply['gaussian']!) {
       // Apply the gaussian filter to the image
-      processedImage = ImageProcessing.applyGaussianBlur(
-          processedImage, gaussRadius ?? 5, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage,
+          (image) =>
+              ImageProcessing.applyGaussianBlur(image, gaussRadius ?? 5));
     }
 
     // Check if the 'emboss' flag is enabled
     if (shouldApply['emboss']!) {
       // Apply the emboss convolution filter to the image
-      processedImage =
-          ImageProcessing.applyEmboss(processedImage, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage, ImageProcessing.applyEmboss);
     }
 
     // Check if the 'sobel' flag is enabled
     if (shouldApply['sobel']!) {
       // Apply the sobel edge detection filtering to the image
-      processedImage =
-          ImageProcessing.applySobel(processedImage, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage, ImageProcessing.applySobel);
     }
 
     // Check if the 'sketch' flag is enabled
     if (shouldApply['sketch']!) {
       // Apply the sketch filter to the image
-      processedImage =
-          ImageProcessing.applySketch(processedImage, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(
+          processedImage, ImageProcessing.applySketch);
     }
 
     // Check if the 'chromatic' flag is enabled
     if (shouldApply['chromatic']!) {
       // Apply the chromatic aberration filter to the image
-      processedImage = ImageProcessing.applyChromatic(
-          processedImage, shift ?? 5, image.hasAnimation);
+      processedImage = ImageProcessing.applyFilter(processedImage,
+          (image) => ImageProcessing.applyChromatic(image, shift ?? 5));
     }
 
     // Get the sendPort from the arguments and send the processed image
