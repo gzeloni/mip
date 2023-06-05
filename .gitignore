@@ -2,7 +2,6 @@ lib/config/
 .dart_tool
 .env
 lib/utils/text_list.dart
-error.log
 lib/utils/commands_list.dart
 .dart_tool/package_config.json
 .DS_Store
