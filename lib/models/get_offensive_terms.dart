@@ -10,26 +10,26 @@ class Trie {
 
   /// Inserts a word into the trie.
   void insert(String word) {
-    TrieNode? node = _root;
-    for (int i = 0; i < word.length; i++) {
-      final char = word[i];
-      if (!node!.children.containsKey(char)) {
-        node.children[char] = TrieNode();
+    TrieNode node = _root;
+    for (final char in word.codeUnits) {
+      final charString = String.fromCharCode(char);
+      if (!node.children.containsKey(charString)) {
+        node.children[charString] = TrieNode();
       }
-      node = node.children[char];
+      node = node.children[charString]!;
     }
-    node!.isEndOfWord = true;
+    node.isEndOfWord = true;
   }
 
   /// Searches for a word in the trie.
   bool search(String word) {
     TrieNode node = _root;
-    for (int i = 0; i < word.length; i++) {
-      final char = word[i];
-      if (!node.children.containsKey(char)) {
+    for (final char in word.codeUnits) {
+      final charString = String.fromCharCode(char);
+      if (!node.children.containsKey(charString)) {
         return false;
       }
-      node = node.children[char]!;
+      node = node.children[charString]!;
     }
     return node.isEndOfWord;
   }
@@ -47,6 +47,7 @@ List<String> verifyOffensiveWords(List<String> words, Trie trie) {
 
   return offensiveWords;
 }
+
 
 // /// Realiza a busca em largura na Trie.
 // bool bfsSearch(Trie trie, List<String> words, String word) {
