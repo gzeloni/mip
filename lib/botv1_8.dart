@@ -16,7 +16,9 @@ void botv1_8() {
     print("Ready!");
   });
 
+  // Register commands for the bot
   BotCommands.commands(bot);
 
+  // Connect the bot to Discord
   bot.connect();
 }
