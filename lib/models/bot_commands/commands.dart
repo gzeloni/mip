@@ -69,15 +69,14 @@ class BotCommands {
               if (response.statusCode == HttpStatus.ok) {
                 // Check if the response status code is OK (200)
                 final contentType = response.headers[
-                    'content-type']; // Get the content type from the response headers
+                    'content-type']; // Get the content-type header from the response
                 final mimeType =
-                    lookupMimeType(link); // Get the MIME type of the link
+                    lookupMimeType(link); // Get the MIME type from the link
                 if (mimeType?.startsWith('image/') == true ||
                     contentType?.startsWith('image/') == true) {
-                  linkIsValid =
-                      true; // The link is valid and returns an image or GIF
+                  // Check if the link is an image
+                  linkIsValid = true;
                 } else {
-                  // The link does not contain an image
                   await event.message.channel.sendMessage(
                       MessageBuilder.content(
                           'O link inserido não contém uma imagem!'));
@@ -86,29 +85,24 @@ class BotCommands {
                 return; // Invalid response status code
               }
             } catch (e) {
-              // An error occurred, the link is not valid
               await event.message.channel.sendMessage(
                   MessageBuilder.content('O link inserido não é válido.'));
             }
           }
 
-          // If the link is valid, continue
-          if (linkIsValid == true) {
-            // Generate a unique filename for the processed image
-            final filename = ImageProcessing.fileName(isGif).toString();
-            // Send a message indicating that the image is being processed
+          if (linkIsValid) {
+            // Process the image
+            final filename = ImageProcessing.getFileName(isGif).toString();
             try {
-              await event.message.channel.sendMessage(
-                  MessageBuilder.content('Aguarde a imagem ser processada...'));
+              await event.message.channel.sendMessage(MessageBuilder.content(
+                  'Por favor aguarde enquanto a imagem é processada...'));
             } catch (e) {
               sendEmbedMessageErrorHandler(e, event, bot);
             }
 
-            // Create a new Mip instance with the message content
-            final mip = MultithreadingImageProcessor(words: content.split(' '));
+            final mip = MultithreadingImageProcessor(words: words);
             await mip.mip(links[0], filename);
 
-            // Send the processed image back to the Discord channel
             final files = [AttachmentBuilder.file(File(filename))];
             try {
               await event.message.channel
@@ -117,16 +111,14 @@ class BotCommands {
               sendEmbedMessageErrorHandler(e, event, bot);
             }
 
-            // Delete the processed image file to free up disk space
             File(filename).delete();
           } else {
             return;
           }
         }
 
-        // Check if the message starts with the "&help" command
         if (content.startsWith('&help') && content.length <= 7) {
-          // Create an embed message with the list of available commands
+          // Respond with a help message
           final embed = EmbedBuilder(
             author: EmbedAuthorBuilder(
               iconUrl:
@@ -141,7 +133,7 @@ class BotCommands {
               text: 'For more information, Naive Bayes#9556',
             ),
           );
-          // Send the embed message to the Discord channel
+
           try {
             await event.message.channel
                 .sendMessage(MessageBuilder.embed(embed));
@@ -150,9 +142,8 @@ class BotCommands {
           }
         }
 
-        // Check if the message starts with the "&updates" command
         if (content.startsWith('&updates') && content.length <= 9) {
-          // Create an embed message with the latest updates
+          // Respond with an updates message
           final embed = EmbedBuilder(
             author: EmbedAuthorBuilder(
               iconUrl:
@@ -168,7 +159,6 @@ class BotCommands {
             ),
           );
 
-          // Send the embed message to the Discord channel
           try {
             await event.message.channel
                 .sendMessage(MessageBuilder.embed(embed));
@@ -178,18 +168,16 @@ class BotCommands {
         }
 
         if (content.startsWith('&gif') && content.length >= 7) {
-          // Insert offensive words into the trie
           for (final list in allOffensiveWords) {
             for (final word in list) {
               trie.insert(word);
             }
           }
 
-          // Verify if any words in the message are offensive
           List<String> offensiveWords = verifyOffensiveWords(words, trie);
 
           if (offensiveWords.isNotEmpty) {
-            // If offensive words are found, send an error message and return
+            // Check if there are any offensive words
             try {
               await event.message.channel.sendMessage(MessageBuilder.content(
                   'Você não pode pesquisar usando esses termos!'));
@@ -198,8 +186,8 @@ class BotCommands {
             }
             return;
           } else {
-            // If there's not exactly one link, send an error message and return
             if (words.length < 2) {
+              // Check if there is a search term after the command
               try {
                 await event.message.channel.sendMessage(MessageBuilder.content(
                     'Por favor, insira o termo da pesquisa após o comando " <gif " !'));
@@ -208,7 +196,7 @@ class BotCommands {
               }
               return;
             } else {
-              // Perform the GIF search and send a random GIF
+              // Get gifs and send a random one
               try {
                 String terms = words.sublist(1).join('-');
                 await getGifs(terms);
@@ -224,6 +212,7 @@ class BotCommands {
         }
 
         if (content.startsWith('&ping') && content.length <= 7) {
+          // Respond with a pong message
           try {
             await event.message.channel
                 .sendMessage(MessageBuilder.content('Pong!'));
@@ -238,6 +227,7 @@ class BotCommands {
       (event) async {
         final content = event.message.content;
         if (content.startsWith('<') && content.length == 21) {
+          // Respond with a help message when the bot is mentioned
           try {
             await event.message.channel.sendMessage(
                 MessageBuilder.content("Digite &help para ver meus comandos"));
@@ -245,6 +235,7 @@ class BotCommands {
             sendEmbedMessageErrorHandler(e, event, bot);
           }
         } else {
+          // Respond with a random text message
           try {
             await event.message.channel
                 .sendMessage(MessageBuilder.content(randomText()));
