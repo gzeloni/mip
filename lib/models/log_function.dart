@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:nyxx/nyxx.dart';
 
-Future<void> logError(dynamic e) async {
-  final file = File('error.log');
+Future<void> logError(dynamic e, String filename) async {
+  final file = File(filename);
   final sink = file.openWrite(mode: FileMode.append);
   sink.write('Error: ${DateTime.now().toString()}\n${e.toString()}\n\n');
   await sink.flush();
@@ -17,6 +17,6 @@ Future<void> sendEmbedMessageErrorHandler(
     await owner.sendMessage(MessageBuilder.content(
         'Não tenho permissão de enviar mensagens no canal <#${event.message.channel.id}>'));
   } catch (e) {
-    await logError(e);
+    await logError(e, 'error.log');
   }
 }
