@@ -11,104 +11,66 @@ class ImageProcessing {
 
   /// This method returns a file name for the processed image based on the current date and time.
   /// @return Returns a string representing the file name.
-  static String fileName(bool isGif) {
-    DateTime date = DateTime.now();
-    String iso8601 = date.toIso8601String();
+  static String getFileName(bool isGif) {
+    final date = DateTime.now();
+    final iso8601 = date.toIso8601String();
     return isGif ? 'assets/$iso8601-output.gif' : 'assets/$iso8601-output.png';
   }
 
-  /// This method applies a black and white filter to the given image.
+  /// This method applies a filter to the given image.
   /// @param [image] The image to apply the filter to.
+  /// @param [filterFunction] The filter function to apply.
   /// @return Returns a new image with the filter applied.
-  static img.Image applyBlackAndWhite(img.Image image) {
-    final grayscale = img.grayscale(image);
-    return grayscale;
+  static img.Image applyFilter(
+      img.Image image, img.Image Function(img.Image) filterFunction) {
+    return filterFunction(image);
   }
 
-  /// This method applies an inverted color filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @return Returns a new image with the filter applied.
+  /// Filter functions
+
+  static img.Image convertToGrayscale(img.Image image) {
+    return img.grayscale(image);
+  }
+
   static img.Image applyInvertedColor(img.Image image) {
-    final invert = img.invert(image);
-    return invert;
+    return img.invert(image);
   }
 
-  /// This method applies a vignette filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @param [amount] The amount of vignette to apply.
-  /// @return Returns a new image with the filter applied.
   static img.Image applyVignette(img.Image image, double amount) {
-    final vignette = img.vignette(image, amount: amount);
-    return vignette;
+    return img.vignette(image, amount: amount);
   }
 
-  /// This method applies a billboard filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @return Returns a new image with the filter applied.
   static img.Image applyBillboard(img.Image image) {
-    final invert = img.billboard(image);
-    return invert;
+    return img.billboard(image);
   }
 
-  /// This method applies a sepia filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @return Returns a new image with the filter applied.
   static img.Image applySepia(img.Image image) {
-    final invert = img.sepia(image);
-    return invert;
+    return img.sepia(image);
   }
 
-  /// This method applies a bulge distortion filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @param [centerX] The x-coordinate of the center of the bulge.
-  /// @param [centerY] The y-coordinate of the center of the bulge.
-  /// @param [radius] The radius of the bulge.
-  /// @return Returns a new image with the filter applied.
-  static img.Image appyBulge(img.Image image,
+  static img.Image applyBulge(img.Image image,
       {int? centerX, int? centerY, num? radius}) {
-    final bulge = img.bulgeDistortion(image,
+    return img.bulgeDistortion(image,
         centerX: centerX, centerY: centerY, radius: radius);
-    return bulge;
   }
 
-  /// This method applies a gaussian blur filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @param [radius] The radius of the gaussian blur.
-  /// @return Returns a new image with the filter applied.
   static img.Image applyGaussianBlur(img.Image image, int radius) {
-    final invert = img.gaussianBlur(image, radius: radius);
-    return invert;
+    return img.gaussianBlur(image, radius: radius);
   }
 
-  /// This method applies a emboss convolution filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @return Returns a new image with the filter applied.
   static img.Image applyEmboss(img.Image image) {
-    final invert = img.emboss(image);
-    return invert;
+    return img.emboss(image);
   }
 
-  /// This method applies a sobel edge detection filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @return Returns a new image with the filter applied.
   static img.Image applySobel(img.Image image) {
-    final apSobel = img.sobel(image);
-    return apSobel;
+    return img.sobel(image);
   }
 
-  /// This method applies a sketch filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @return Returns a new image with the filter applied.
   static img.Image applySketch(img.Image image) {
-    final apSketch = img.sketch(image);
-    return apSketch;
+    return img.sketch(image);
   }
 
-  /// This method applies a chromatic aberration filter to the given image.
-  /// @param [image] The image to apply the filter to.
-  /// @return Returns a new image with the filter applied.
   static img.Image applyChromatic(img.Image image, int shift) {
-    final chromatic = img.chromaticAberration(image, shift: shift);
-    return chromatic;
+    return img.chromaticAberration(image, shift: shift);
   }
 }
