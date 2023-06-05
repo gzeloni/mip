@@ -17,7 +17,6 @@ import 'package:http/http.dart' as http;
 class Mip {
   final List<String> words;
   Mip({required this.words});
-  bool isGif = false;
 
   Future<void> mip(String imageLink, String filename) async {
     try {
@@ -40,6 +39,10 @@ class Mip {
       final newImage = await receivePort.first as img.Image;
       await File(filename).writeAsBytes(
           isGif == true ? img.encodeGif(newImage) : img.encodePng(newImage));
+    } on IsolateSpawnException catch (isolateSpawnException) {
+      print(isolateSpawnException);
+    } on RemoteError catch (remoteError) {
+      print(remoteError);
     } catch (e) {
       print(e.toString());
     }
@@ -102,71 +105,82 @@ class Mip {
     // Check if 'p&b' flag is enabled
     if (shouldApply['p&b']!) {
       // Apply black and white filter to the image
-      processedImage = ImageProcessing.applyBlackAndWhite(image);
+      processedImage =
+          ImageProcessing.applyBlackAndWhite(image, image.hasAnimation);
     }
 
     // Check if 'inverted' flag is enabled
     if (shouldApply['inverted']!) {
       // Apply inverted color filter to the image
-      processedImage = ImageProcessing.applyInvertedColor(image);
+      processedImage =
+          ImageProcessing.applyInvertedColor(image, image.hasAnimation);
     }
 
     // Check if 'billboard' flag is enabled
     if (shouldApply['billboard']!) {
       // Apply billboard filter to the image
-      processedImage = ImageProcessing.applyBillboard(processedImage);
+      processedImage =
+          ImageProcessing.applyBillboard(processedImage, image.hasAnimation);
     }
 
     // Check if 'sepia' flag is enabled
     if (shouldApply['sepia']!) {
       // Apply sepia filter to the image
-      processedImage = ImageProcessing.applySepia(processedImage);
+      processedImage =
+          ImageProcessing.applySepia(processedImage, image.hasAnimation);
     }
 
     // Check if 'vignette' flag is enabled
     if (shouldApply['vignette']!) {
       // Apply vignette filter to the image
       processedImage = ImageProcessing.applyVignette(
-          processedImage, vignetteThickness ?? 1.4);
+          processedImage, vignetteThickness ?? 1.4, image.hasAnimation);
     }
 
     // Check if 'bulge' flag is enabled
     if (shouldApply['bulge']!) {
       // Apply bulge filter to the image
-      processedImage = ImageProcessing.appyBulge(processedImage,
-          centerX: centerX, centerY: centerY, radius: radius);
+      processedImage = ImageProcessing.appyBulge(
+          processedImage,
+          centerX: centerX,
+          centerY: centerY,
+          radius: radius,
+          image.hasAnimation);
     }
 
     // Check if 'gaussian' flag is enabled
     if (shouldApply['gaussian']!) {
       // Apply gaussian filter to the image
-      processedImage =
-          ImageProcessing.applyGaussianBlur(processedImage, gaussRadius ?? 5);
+      processedImage = ImageProcessing.applyGaussianBlur(
+          processedImage, gaussRadius ?? 5, image.hasAnimation);
     }
 
     // Check if 'emboss' flag is enabled
     if (shouldApply['emboss']!) {
       // Apply emboss convolution filter to the image
-      processedImage = ImageProcessing.applyEmboss(processedImage);
+      processedImage =
+          ImageProcessing.applyEmboss(processedImage, image.hasAnimation);
     }
 
     // Check if 'sobel' flag is enabled
     if (shouldApply['sobel']!) {
       // Apply sobel edge detection filtering to the image
-      processedImage = ImageProcessing.applySobel(processedImage);
+      processedImage =
+          ImageProcessing.applySobel(processedImage, image.hasAnimation);
     }
 
     // Check if 'sketch' flag is enabled
     if (shouldApply['sketch']!) {
       // Apply sketch filter to the image
-      processedImage = ImageProcessing.applySketch(processedImage);
+      processedImage =
+          ImageProcessing.applySketch(processedImage, image.hasAnimation);
     }
 
     // Check if 'chromatic' flag is enabled
     if (shouldApply['chromatic']!) {
       // Apply chromatic aberration filter to the image
-      processedImage =
-          ImageProcessing.applyChromatic(processedImage, shift ?? 5);
+      processedImage = ImageProcessing.applyChromatic(
+          processedImage, shift ?? 5, image.hasAnimation);
     }
 
     // Get the sendPort from the arguments and send the processed image
