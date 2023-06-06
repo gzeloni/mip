@@ -60,8 +60,8 @@
     
 ## How to run?
 #### To run this program, you need a discord API and a GIPHY API.
-First, create a config folder `lib/config/`
-Then create a file named `config.dart` inside the `lib/config/` folder:
+First, run the `install.sh`
+Then edit the file named `config.dart` inside the `lib/config/` folder:
 ```dart
 class Config {
   static const String _discordToken =
@@ -79,8 +79,7 @@ class Config {
 }
 ```
 
-#### Then create a folder in the root of the project named `assets/`
-#### And finally, create a file in `lib/utils/` with the name `text_list.dart`: 
+#### And finally, edit the file in `lib/utils/` with the name `text_list.dart`: 
 ```dart
 List textList = [
   'Put some answers inside this list',
@@ -97,4 +96,4 @@ String randomText() {
 ```
 
 ## Does it work with Flutter?
-#### While MIP is not currently compatible with Flutter, it is part of the project's future plans to make it possible to use via the NetworkImage object and Image.network() widget.
+#### MIP is not compatible with Flutter.
