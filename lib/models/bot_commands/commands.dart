@@ -41,6 +41,11 @@ class BotCommands {
                   element.contains('http://') || element.contains('https://'))
               .toList();
 
+          // Check if there are no links and if there is a non-null attachment
+          if (links.isEmpty && attachmentImage != null) {
+            links.add(attachmentImage);
+          }
+
           // If there's not exactly one link, send an error message and return
           if (links.length != 1) {
             try {
@@ -50,11 +55,6 @@ class BotCommands {
               sendEmbedMessageErrorHandler(e, event, bot);
             }
             return;
-          }
-
-          // Check if there are no links and if there is a non-null attachment
-          if (links.isEmpty && attachmentImage != null) {
-            links.add(attachmentImage);
           }
 
           for (final link in links) {
