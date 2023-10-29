@@ -69,47 +69,46 @@ class MultithreadingImageProcessor {
     final words = args['words'] as List<String>;
 
     // Parse the options from the list of words
+    Map<String, Function> options = {
+      'x': (String value) {
+        centerX = int.parse(value);
+      },
+      'y': (String value) {
+        centerY = int.parse(value);
+      },
+      'radius': (String value) {
+        radius = double.tryParse(value);
+      },
+      'blur': (String value) {
+        gaussRadius = int.parse(value);
+      },
+      'shift': (String value) {
+        shift = int.parse(value);
+      },
+      'vignette': (String value) {
+        vignetteThickness = double.tryParse(value);
+      },
+    };
+
     for (final word in words) {
-      // Check if the word starts with '-' to identify an option
       if (word.startsWith('-')) {
         final key = word.substring(1);
-        bool index = words.indexOf(word) + 1 < words.length;
-        bool isNumeric =
+        final index = words.indexOf(word) + 1 < words.length;
+        final isNumeric =
             ImageProcessing.isNumeric(words[words.indexOf(word) + 1]);
 
-        if (key == 'x' && index && isNumeric) {
-          // If the option is 'x' and the next word is a number, parse it to int and save it as centerX
-          centerX = int.parse(words[words.indexOf(word) + 1]);
-          shouldApply[key] = true;
-        } else if (key == 'y' && index && isNumeric) {
-          // If the option is 'y' and the next word is a number, parse it to int and save it as centerY
-          centerY = int.parse(words[words.indexOf(word) + 1]);
-          shouldApply[key] = true;
-        } else if (key == 'radius' && index && isNumeric) {
-          // If the option is 'radius' and the next word is a number, parse it to double and save it as radius
-          radius = double.tryParse(words[words.indexOf(word) + 1]);
-          shouldApply[key] = true;
-        } else if (key == 'blur' && index && isNumeric) {
-          // If the option is 'blur' and the next word is a number, parse it to double and save it as gaussRadius
-          gaussRadius = int.parse(words[words.indexOf(word) + 1]);
-          shouldApply[key] = true;
-        } else if (key == 'shift' && index && isNumeric) {
-          // If the option is 'shift' and the next word is a number, parse it to double and save it as shift
-          shift = int.parse(words[words.indexOf(word) + 1]);
+        if (options.containsKey(key) && index && isNumeric) {
+          options[key]!(words[words.indexOf(word) + 1]);
           shouldApply[key] = true;
         } else if (shouldApply[key] != null) {
-          // If the option is valid and doesn't require a value, set its value to true
           shouldApply[key] = true;
-
           if (key == 'vignette' && index && isNumeric) {
-            // If the option is 'vignette' and the next word is a number, parse it to double and save it as vignetteThickness
             vignetteThickness = double.tryParse(words[words.indexOf(word) + 1]);
           }
         } else if (!isNumeric) {
           return;
         }
       } else if (shouldApply.containsKey(word)) {
-        // If the word is a valid option and doesn't require a value, set its value to true
         shouldApply[word] = true;
       }
     }
@@ -119,87 +118,31 @@ class MultithreadingImageProcessor {
 
     img.Image processedImage = image;
 
-    // Check if the 'p&b' flag is enabled
-    if (shouldApply['p&b']!) {
-      // Apply the black and white filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage, ImageProcessing.convertToGrayscale);
-    }
+    Map<String, img.Image Function(img.Image)> filters = {
+      'p&b': ImageProcessing.convertToGrayscale,
+      'inverted': ImageProcessing.applyInvertedColor,
+      'billboard': ImageProcessing.applyBillboard,
+      'sepia': ImageProcessing.applySepia,
+      'vignette': (image) =>
+          ImageProcessing.applyVignette(image, vignetteThickness ?? 1.4),
+      'bulge': (image) => ImageProcessing.applyBulge(image,
+          centerX: centerX, centerY: centerY, radius: radius),
+      'gaussian': (image) =>
+          ImageProcessing.applyGaussianBlur(image, gaussRadius ?? 5),
+      'emboss': ImageProcessing.applyEmboss,
+      'sobel': ImageProcessing.applySobel,
+      'sketch': ImageProcessing.applySketch,
+      'chromatic': (image) => ImageProcessing.applyChromatic(image, shift ?? 5),
+    };
 
-    // Check if the 'inverted' flag is enabled
-    if (shouldApply['inverted']!) {
-      // Apply the inverted color filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage, ImageProcessing.applyInvertedColor);
-    }
-
-    // Check if the 'billboard' flag is enabled
-    if (shouldApply['billboard']!) {
-      // Apply the billboard filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage, ImageProcessing.applyBillboard);
-    }
-
-    // Check if the 'sepia' flag is enabled
-    if (shouldApply['sepia']!) {
-      // Apply the sepia filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage, ImageProcessing.applySepia);
-    }
-
-    // Check if the 'vignette' flag is enabled
-    if (shouldApply['vignette']!) {
-      // Apply the vignette filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage,
-          (image) =>
-              ImageProcessing.applyVignette(image, vignetteThickness ?? 1.4));
-    }
-
-    // Check if the 'bulge' flag is enabled
-    if (shouldApply['bulge']!) {
-      // Apply the bulge filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage,
-          (image) => ImageProcessing.applyBulge(image,
-              centerX: centerX, centerY: centerY, radius: radius));
-    }
-
-    // Check if the 'gaussian' flag is enabled
-    if (shouldApply['gaussian']!) {
-      // Apply the gaussian filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage,
-          (image) =>
-              ImageProcessing.applyGaussianBlur(image, gaussRadius ?? 5));
-    }
-
-    // Check if the 'emboss' flag is enabled
-    if (shouldApply['emboss']!) {
-      // Apply the emboss convolution filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage, ImageProcessing.applyEmboss);
-    }
-
-    // Check if the 'sobel' flag is enabled
-    if (shouldApply['sobel']!) {
-      // Apply the sobel edge detection filtering to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage, ImageProcessing.applySobel);
-    }
-
-    // Check if the 'sketch' flag is enabled
-    if (shouldApply['sketch']!) {
-      // Apply the sketch filter to the image
-      processedImage = ImageProcessing.applyFilter(
-          processedImage, ImageProcessing.applySketch);
-    }
-
-    // Check if the 'chromatic' flag is enabled
-    if (shouldApply['chromatic']!) {
-      // Apply the chromatic aberration filter to the image
-      processedImage = ImageProcessing.applyFilter(processedImage,
-          (image) => ImageProcessing.applyChromatic(image, shift ?? 5));
+    for (final entry in shouldApply.entries) {
+      if (entry.value) {
+        final key = entry.key;
+        if (filters.containsKey(key)) {
+          processedImage =
+              ImageProcessing.applyFilter(processedImage, filters[key]!);
+        }
+      }
     }
 
     // Get the sendPort from the arguments and send the processed image
