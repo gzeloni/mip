@@ -1,5 +1,6 @@
 # Multithreading Image Processor - MIP
 
+<<<<<<< Updated upstream
 #### Multithreading Image Processor (MIP) is a project aimed at developing a fast and highly customizable image processing system using the Dart programming language's [dart:io](https://api.dart.dev/stable/2.19.6/dart-io/dart-io-library.html), [dart:isolate](https://api.dart.dev/stable/2.19.6/dart-isolate/dart-isolate-library.html), and [image](https://pub.dev/packages/image) package, as well as the [nyxx](https://pub.dev/packages/nyxx) package for Discord bots.
 
 ## Output examples:
@@ -7,6 +8,26 @@
 | Without filter | P&B filter | Inverted filter |
 |---|---|---|
 | ![Image](output_examples/sem_filtro.jpeg) | ![Image](output_examples/p_b.png) | ![Image](output_examples/inverted.png) |
+=======
+##### Project that aims to develop an image processing system using the [dart:io](https://api.dart.dev/stable/2.19.6/dart-io/dart-io-library.html), [dart:isolate](https://api.dart.dev/stable/2.19.6/dart-isolate/dart-isolate-library.html) library, dart [image](https://pub.dev/packages/image) package, and the [nyxx](https://pub.dev/packages/nyxx) package for Discord bots.
+
+## O objetivo
+##### O objetivo desse projeto é desenvolver um sistema que processe imagens de forma rápida e com muitas opções de edição.
+
+## Funcionamento
+##### A "interface" do sistema é um bot que funciona no Discord. Você da um "prompt" e ele te retorna a imagem processada com os filtros que você pediu.
+
+## Comandos
+##### Os comandos são muitos e só crescem mais em opções (flags) a cada atualização. Aqui estão alguns dos comandos:
+    * &make <link> parameters (the link can be added anywhere in the command)\n
+    * p&b: Apply a black and white filter to the image\n
+    * inverted: Apply a inverted color filter to the image\n
+    * billboard: Apply a billboard (the image is made up of dots) filter to the image\n
+    * sepia: Apply a sepia (shades of yellow) filter to the image\n
+    * bulge: Apply a bulge effect to the image (try, it's funny!)\n
+    * with vignette: Apply a vignette to the image (you can add a custom value, like "with vignette 0.8")
+##### The objective of this project is to study the different possible uses of isolates, which are a great tool in the [Dart](https://dart.dev/) programming language, but which are still recent and little studied.
+>>>>>>> Stashed changes
 
 | Billboard filter | Sepia filter | Bulge filter |
 |---|---|---|
