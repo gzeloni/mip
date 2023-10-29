@@ -96,4 +96,4 @@ String randomText() {
 ```
 
 ## Does it work with Flutter?
-#### MIP is not compatible with Flutter.
+#### While MIP is not currently compatible with Flutter, it is part of the project's future plans to make it possible to use via the NetworkImage object and Image.network() widget.
