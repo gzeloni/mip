@@ -83,13 +83,15 @@ class MultithreadingImageProcessor {
         gaussRadius = int.parse(value);
       },
       'shift': (String value) {
-        shift = int.parse(value);
+        shift = int.tryParse(value)!;
       },
       'vignette': (String value) {
         vignetteThickness = double.tryParse(value);
       },
     };
 
+    // Para cada palavra da mensagem, roda o loop
+    // o(log N) ?
     for (final word in words) {
       if (word.startsWith('-')) {
         final key = word.substring(1);
